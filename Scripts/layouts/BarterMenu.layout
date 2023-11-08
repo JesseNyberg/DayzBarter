@@ -1,0 +1,157 @@
+FrameWidgetClass ContainerWidget {
+ clipchildren 1
+ ignorepointer 1
+ color 0.7843 0.7843 0.7843 1
+ position 0 0
+ size 1280 1024
+ halign center_ref
+ valign center_ref
+ hexactpos 0
+ vexactpos 0
+ hexactsize 1
+ vexactsize 1
+ priority 50
+ {
+  ButtonWidgetClass escapeButton {
+   visible 1
+   position 0.00377 0.00197
+   size 0.04 0.04
+   halign right_ref
+   hexactpos 0
+   vexactpos 0
+   hexactsize 0
+   vexactsize 0
+   fixaspect fixwidth
+   userID 2
+   draggable 0
+   style MenuDefault
+   text_offset 1 1
+   text_halign center
+   "text color" 1 1 1 1
+   "disabled text color" 0.3373 0.3373 0.3373 1
+  }
+  GridSpacerWidgetClass GridSpacerPreviews {
+   visible 1
+   ignorepointer 1
+   position 27.96 196.039
+   size 580.42706 699.24097
+   hexactpos 1
+   vexactpos 1
+   hexactsize 1
+   vexactsize 1
+   Columns 4
+   Rows 4
+  }
+  ImageWidgetClass ImageWidget0 {
+   ignorepointer 1
+   position 0 -2.75719
+   size 1280 1024
+   hexactpos 1
+   vexactpos 1
+   hexactsize 1
+   vexactsize 1
+   imageTexture "{65A7587296607067}barterbackground.edds"
+   mode opaque
+   stretch 1
+  }
+  ImageWidgetClass IconClose {
+   visible 1
+   ignorepointer 1
+   position 0.00381 0.00351
+   size 0.04 0.04
+   halign right_ref
+   hexactpos 0
+   vexactpos 0
+   hexactsize 0
+   vexactsize 0
+   fixaspect fixwidth
+   draggable 0
+   image0 "set:dayz_gui image:Close"
+   mode blend
+   "src alpha" 1
+   "no wrap" 1
+   filter 1
+   nocache 0
+  }
+  TextWidgetClass textEqual {
+   visible 0
+   ignorepointer 1
+   position 1029.88 541.01898
+   size 70.5108 79.76089
+   hexactpos 1
+   vexactpos 1
+   hexactsize 1
+   vexactsize 1
+   text "="
+  }
+  TextWidgetClass selectedName {
+   ignorepointer 1
+   position 635.19897 206.076
+   size 269.345 55.7783
+   hexactpos 1
+   vexactpos 1
+   hexactsize 1
+   vexactsize 1
+  }
+  TextWidgetClass barterLevelText {
+   ignorepointer 1
+   position 30.6132 922.17596
+   size 339.08698 57.9234
+   hexactpos 1
+   vexactpos 1
+   hexactsize 1
+   vexactsize 1
+   text "Barter level: "
+  }
+  ButtonWidgetClass buyButton {
+   visible 1
+   position 1127 870.88599
+   size 108.91801 68.5099
+   hexactpos 1
+   vexactpos 1
+   hexactsize 1
+   vexactsize 1
+  }
+  TextWidgetClass buyText {
+   visible 1
+   ignorepointer 1
+   position 1142.22998 890.04199
+   size 81.169 36.1155
+   hexactpos 1
+   vexactpos 1
+   hexactsize 1
+   vexactsize 1
+   text "Trade"
+  }
+  GridSpacerWidgetClass GridSpacerRecipes {
+   visible 1
+   ignorepointer 1
+   position 642.84698 319.85098
+   size 374.82297 507.66699
+   hexactpos 1
+   vexactpos 1
+   hexactsize 1
+   vexactsize 1
+   Columns 4
+   Rows 4
+  }
+  ItemPreviewWidgetClass tradablePreview {
+   ignorepointer 1
+   position 1070.68994 485.37799
+   size 184.67102 181.7
+   hexactpos 1
+   vexactpos 1
+   hexactsize 1
+   vexactsize 1
+  }
+  TextWidgetClass TextWidget0 {
+   ignorepointer 1
+   position 38.244 142.255
+   size 249.27501 42.4856
+   hexactpos 1
+   vexactpos 1
+   hexactsize 1
+   vexactsize 1
+  }
+ }
+}
