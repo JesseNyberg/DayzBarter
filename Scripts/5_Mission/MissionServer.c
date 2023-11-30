@@ -1,6 +1,8 @@
 modded class MissionServer
 {
     ref NPCManager m_NPCManager; // Our NPC manager reference
+	ref AIMissions aiMissions;
+	ref BartererList bartererList;
 
     override void OnInit()
     {
@@ -11,11 +13,40 @@ modded class MissionServer
 		
 		Print("BARTER: MissionServer initialized!");
 		
-		AIMissions aiMissions = new AIMissions();
+		aiMissions = new AIMissions();
+		bartererList = new BartererList();
+		GetRPCManager().AddRPC("BarterMod", "RespondBartererList", this, SingeplayerExecutionType.Server);
+		LoadBartererList();
 		
-		int randomMissionTime = Math.RandomInt(1800 * 1000, 10800 * 1000);
+		int randomMissionTime = Math.RandomInt(1200 * 1000, 6300 * 1000);
 		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(aiMissions.randomMission, randomMissionTime, false);
+    }
+	
+	void LoadBartererList() {
+		string filePath = BARTER_RECIPE_FOLDER + "recipeConfig.json";
 		
+		if (FileExist(filePath)) {
+			JsonFileLoader<BartererList>.JsonLoadFile(filePath, bartererList);
+			Print("BARTER: JSON FILE LOADED");
+		} else {
+			MakeDirectory(BARTER_RECIPE_FOLDER);
+			JsonFileLoader<BartererList>.JsonSaveFile(filePath, bartererList);
+			Print("BARTER: JSON FILE SAVED");
+		}
+		
+	}
+	
+	void RespondBartererList(CallType callType, ref ParamsReadContext ctx, ref PlayerIdentity sender, ref Object target) {
+        if (callType == CallType.Server) {
+            SendBartererListToClient(sender);
+			Print("BARTER: Respond for barterer list request in MissionServer!");
+        }
+    }
+	
+	void SendBartererListToClient(PlayerIdentity playerIdentity) {
+        Param1<ref BartererList> param = new Param1<ref BartererList>(bartererList);
+		Print("BARTER: Sending barterer list to BarterUI (client");
+        GetRPCManager().SendRPC("BarterMod", "RPCReceiveBartererList", param, true, playerIdentity);
     }
 	
 	

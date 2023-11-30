@@ -1,6 +1,7 @@
 modded class PlayerBase
 {
 	bool m_IsTrader = false;
+	bool m_barterMenuOpen = false;
 	int m_currentSkillLevel = 0;
 	
 	override void Init()
@@ -13,20 +14,10 @@ modded class PlayerBase
 	void setTraderStatus() 
 	{
 		m_IsTrader = true;
-		//Print("BARTER: Trader status has been set to an npc");
 	}
-	
-
-	
-	override void OnPlayerLoaded()
-	{
-		super.OnPlayerLoaded();
-	}
-
-	
+		
 	bool isTrader()
 	{
-		//Print("BARTER: Trader status has been called for checking");
 		return m_IsTrader;
 	}
 	
@@ -35,7 +26,5 @@ modded class PlayerBase
 		super.SetActions(); 
 
 		AddAction(ActionTradeWithNPC);
-		
-		//Print("BARTER: Actions set!");
 	}
 }

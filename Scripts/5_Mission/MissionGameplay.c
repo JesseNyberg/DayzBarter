@@ -1,26 +1,25 @@
 modded class MissionGameplay 
 {
-    private ref BarterUI barterMenu;
 
-    override void OnUpdate(float timeslice) {
-        super.OnUpdate(timeslice);
-        
-        Input input = GetGame().GetInput();
-        if (input.LocalPress("UAUIBack", true)) 
-        {
-            if (barterMenu != NULL && GetGame().GetUIManager().GetMenu() == barterMenu) {
-                GetGame().GetUIManager().HideScriptedMenu(barterMenu);
+		override void OnKeyRelease(int key)
+	{
+		super.OnKeyRelease(key);
+		
+
+		if ( key == KeyCode.KC_ESCAPE )
+		{	
+            PlayerBase player = PlayerBase.Cast(GetGame().GetPlayer());
+			
+            if (player && player.m_barterMenuOpen)
+            {
+				GetGame().GetUIManager().CloseMenu(BARTER_UI);
+				
+				player.m_barterMenuOpen = false;
+
                 UnlockControls();
             }
-        }
-    }
-
-    private void LockControls()
-    {
-        GetGame().GetMission().PlayerControlDisable(INPUT_EXCLUDE_ALL);
-        GetGame().GetUIManager().ShowUICursor( true );
-        GetGame().GetMission().GetHud().Show( false );
-    }
+		}
+	}
 
     private void UnlockControls()
     {

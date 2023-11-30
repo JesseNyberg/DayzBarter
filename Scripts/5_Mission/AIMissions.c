@@ -2,6 +2,173 @@ class AIMissions : eAICommandManagerClient {
 	
 	ref array<ref eAIGroup> m_AIGroups = new array<ref eAIGroup>;
 	
+	ref map<string, int> weaponMissionItems = new map<string, int>();
+	
+	void initializeWeaponMissionItems() {
+		weaponMissionItems.Insert("BO_L85", 1);
+		weaponMissionItems.Insert("Aug", 1);
+		weaponMissionItems.Insert("M14", 1);
+		weaponMissionItems.Insert("AKM", 1);
+		weaponMissionItems.Insert("M4A1", 1);
+		weaponMissionItems.Insert("AK74", 2);
+		weaponMissionItems.Insert("AK101", 2);
+
+		weaponMissionItems.Insert("Mag_AK74_30Rnd", 2);
+		weaponMissionItems.Insert("Mag_AK101_30Rnd", 2);
+		weaponMissionItems.Insert("Mag_STANAG_30Rnd", 2);
+		weaponMissionItems.Insert("Mag_M14_10rnd", 2);
+		weaponMissionItems.Insert("Mag_AKM_30Rnd", 2);
+		weaponMissionItems.Insert("Mag_AKM_Drum75Rnd", 1);
+
+		weaponMissionItems.Insert("PlateCarrierVest", 2);
+		weaponMissionItems.Insert("Battery9V", 5);
+		weaponMissionItems.Insert("Rangefinder", 3);
+		weaponMissionItems.Insert("NVGoggles", 1);
+		weaponMissionItems.Insert("RGD5Grenade", 3);
+		weaponMissionItems.Insert("M67Grenade", 3);
+		weaponMissionItems.Insert("ClaymoreMine", 2);
+	}
+
+	
+	ref map<string, int> cultistMissionItems = new map<string, int>();
+	
+	void initializeCultistMissionItems() {
+		cultistMissionItems.Insert("Codelock", 3);
+		cultistMissionItems.Insert("NailBox", 5);
+		cultistMissionItems.Insert("Hammer", 5);
+		cultistMissionItems.Insert("HandSaw", 5);
+		cultistMissionItems.Insert("MetalWire", 5);
+		cultistMissionItems.Insert("CableReed", 2);
+		cultistMissionItems.Insert("CombinationLock4", 2);
+		cultistMissionItems.Insert("BarbedWire", 3);
+		cultistMissionItems.Insert("MetalPlate", 1);
+		cultistMissionItems.Insert("Whetstone", 3);
+		cultistMissionItems.Insert("DuctTape", 5);
+
+		cultistMissionItems.Insert("mmg_equipment_locked_black_kit", 1);
+		cultistMissionItems.Insert("mmg_locker02_green_kit", 1);
+		cultistMissionItems.Insert("mmg_gun_rack_kit_tan", 1);
+		cultistMissionItems.Insert("mmg_fridge_kit_blue", 1);
+		cultistMissionItems.Insert("mmg_old_safe_green", 1);
+	}
+
+	
+	ref map<string, int> medicalMissionItems = new map<string, int>();
+	
+	void initializeMedicalMissionItems() {
+		medicalMissionItems.Insert("PurificationTablets", 3);
+		medicalMissionItems.Insert("CharcoalTablets", 3);
+		medicalMissionItems.Insert("PainkillerTablets", 3);
+		medicalMissionItems.Insert("TetracyclineAntibiotics", 5);
+		medicalMissionItems.Insert("IodineTincture", 3);
+		medicalMissionItems.Insert("BloodBagEmpty", 3);
+		medicalMissionItems.Insert("BloodTestKit", 3);
+		medicalMissionItems.Insert("Heatpack", 10);
+		medicalMissionItems.Insert("StartKitIV", 3);
+		medicalMissionItems.Insert("SalineBag", 3);
+		medicalMissionItems.Insert("VitaminBottle", 3);
+		medicalMissionItems.Insert("AntiChemInjector", 5);
+		medicalMissionItems.Insert("Ammo_40mm_ChemGas", 3);
+
+		medicalMissionItems.Insert("GP5GasMask", 3);
+		medicalMissionItems.Insert("AirborneMask", 3);
+		medicalMissionItems.Insert("GasMask_Filter", 6);
+		medicalMissionItems.Insert("M18SmokeGrenade_White", 5);
+
+		medicalMissionItems.Insert("NBCGlovesYellow", 3);
+		medicalMissionItems.Insert("NBCHoodYellow", 3);
+		medicalMissionItems.Insert("NBCPantsYellow", 3);
+		medicalMissionItems.Insert("NBCBootsYellow", 3);
+		medicalMissionItems.Insert("NBCJacketYellow", 3);
+		
+		medicalMissionItems.Insert("Epinephrine", 8);
+		medicalMissionItems.Insert("Morphine", 8);
+		medicalMissionItems.Insert("BO_CmsKit", 3);
+	}	
+
+	
+	ref map<string, int> mayorMissionItems = new map<string, int>();
+	
+	void initializeMayorMissionItems() {
+		mayorMissionItems.Insert("NBCGlovesYellow", 2);
+		mayorMissionItems.Insert("NBCHoodYellow", 2);
+		mayorMissionItems.Insert("NBCPantsYellow", 2);
+		mayorMissionItems.Insert("NBCBootsYellow", 2);
+		mayorMissionItems.Insert("NBCJacketYellow", 2);
+		mayorMissionItems.Insert("GasMask_Filter", 4);
+		mayorMissionItems.Insert("AirborneMask", 2);
+		mayorMissionItems.Insert("Ammo_40mm_ChemGas", 3);
+		mayorMissionItems.Insert("AntiChemInjector", 5);
+		mayorMissionItems.Insert("mmg_old_safe_green", 1);
+		mayorMissionItems.Insert("mmg_equipment_locker_black_kit", 2);
+		mayorMissionItems.Insert("mmg_locker02_green_kit", 2);
+		mayorMissionItems.Insert("BO_M40A1", 2);
+		mayorMissionItems.Insert("ASVAL", 2);
+		mayorMissionItems.Insert("CZ550", 2);
+		mayorMissionItems.Insert("FAL", 2);
+		mayorMissionItems.Insert("Winchester70", 2);
+		mayorMissionItems.Insert("BO_L85", 2);
+		mayorMissionItems.Insert("M14", 2);
+		mayorMissionItems.Insert("M4A1", 2);
+		mayorMissionItems.Insert("Aug", 2);
+		mayorMissionItems.Insert("PlateCarrierVest_Black", 5);
+		mayorMissionItems.Insert("M67Grenade", 5);
+		mayorMissionItems.Insert("Plastic_Explosive", 1);
+		mayorMissionItems.Insert("HuntingOptic", 3);
+		mayorMissionItems.Insert("NVGoggles", 2);
+		mayorMissionItems.Insert("HDSN_BreachingChargeHeavy", 3);
+	}
+	
+	
+	ref map<string, ref array<float>> collectableItems = new map<string, ref array<float>>();
+	
+	
+	void initializeCollectableItems(string missionName) 
+	{
+		switch (missionName) {
+			case "mayorsmission":
+				collectableItems.Insert("evg_keycards_White", {1, 0.8});
+				collectableItems.Insert("evg_keycards_All", {1, 0.10});
+				collectableItems.Insert("CJ_Materials_plate10", {2, 1.0});
+				collectableItems.Insert("Collectable_SSDV2", {1, 0.5});
+				collectableItems.Insert("Collectable_USB", {1, 0.5});
+				break;
+			case "cultistmission":
+				collectableItems.Insert("evg_keycards_White", {1, 0.5});
+				collectableItems.Insert("Collectable_CrossNecklace", {4, 1.0});
+				collectableItems.Insert("Collectable_PocketWatch", {4, 1.0});
+				collectableItems.Insert("Collectable_FloppyDisks_MTV", {4, 1.0});
+				break;
+			case "medicalmission":
+				collectableItems.Insert("Collectable_SSD", {3, 1.0});
+				collectableItems.Insert("Collectable_FloppyDisks_April", {3, 1.0});
+				collectableItems.Insert("ExpansionCircuitBoard_MK2", {3, 1.0});
+				break;
+			case "weaponscachemission":
+				collectableItems.Insert("evg_keycards_White", {1, 0.30});
+				collectableItems.Insert("Collectable_Intel", {2, 1.0});
+				collectableItems.Insert("CJ_Materials_Fabric_Camouflage", {2, 1.0});
+				collectableItems.Insert("CJ_Materials_CharcoalPowder", {10, 1.0});
+				collectableItems.Insert("CJ_Materials_Sulfur", {10, 1.0});
+				break;
+		}
+    }
+	
+	void randomItems(ItemBase container) {
+        foreach (string item, array<float> data : collectableItems) {
+            float maxQuantity = data[0];
+            float probability = data[1];
+
+            for (int i = 0; i < maxQuantity; i++) {
+                if (Math.RandomFloatInclusive(0, 1) <= probability) {
+                    container.GetInventory().CreateInInventory(item);
+                }
+            }
+		}
+    }
+	
+	
+	
 	 ref TStringArray missionFunctions = {
         "MayorMissionNovaya",
 		"CultMissionPrud",
@@ -9,6 +176,7 @@ class AIMissions : eAICommandManagerClient {
 		"WeaponCacheMission"
 		
     };
+	
 	
 	void SpawnAIGroup(int AIAmount, vector spawnPosition, array<vector> waypoints, string loadout, int speedLimit, int threatSpeedLimit, eAIWaypointBehavior behavior, bool canBeLooted = false, bool unlimitedReload = true)
 	{
@@ -78,6 +246,7 @@ class AIMissions : eAICommandManagerClient {
 	
 	void MayorMissionNovaya() {
 		// Roamer AI's
+		Print("AIMISSIONS: Mayor mission starting");
 		SpawnAIGroup(4, "4331.134766 341.695282 14468.859375", {"4331.134766 341.695282 14468.859375", "4386.891113 340.169922 14473.710938", "4392.601074 352.328094 14535.487305", "4325.199219 355.108582 14552.604492", "4294.653809 344.300415 14487.539063", "4294.653809 344.300415 14487.539063"}, "AIMajurinMansikka.json", 1, 3, eAIWaypointBehavior.LOOP, false, true);
 		SpawnAIGroup(4, "4326.708984 350.323822 14516.596680", {"4326.708984 350.323822 14516.596680", "4311.175781 350.321350 14504.283203", "4309.230469 350.310364 14488.117188", "4363.899902 350.291351 14480.090820", "4366.572754 350.304718 14496.294922", "4353.651855 350.300537 14514.662109", "4329.877441 350.501129 14519.128906"}, "AIMajurinMansikka.json", 1, 3, eAIWaypointBehavior.LOOP, false, true);
 		SpawnAIGroup(3, "4303.337402 354.614502 14553.935547", {"4303.337402 354.614502 14553.935547", "4300.491699 343.048126 14476.500000", "4384.842285 339.527466 14468.657227", "4398.509766 355.110535 14549.507813", "4313.920410 354.539459 14549.896484"}, "AIMajurinMansikka.json", 1, 3, eAIWaypointBehavior.LOOP, false, true);
@@ -110,64 +279,83 @@ class AIMissions : eAICommandManagerClient {
 		// Mayor AI
 		SpawnAIGroup(1, "4329.576172 354.861053 14506.604492", {"4329.576172 354.861053 14506.604492"}, "Majuri_Majurinmansikka.json", 0, 0, eAIWaypointBehavior.ALTERNATE, false, true);
 
-
-		
 		ItemBase container = ItemBase.Cast( GetGame().CreateObject("BO_MilitaryCrateStack", "4330.407715 354.864990 14508.438477", false, false));
-		container.GetInventory().CreateInInventory("Potato");
 		
-		NotificationSystem.SimpleNoticiation("A known corrupt mayor is in town with his personal guards. Take them out and retrieve their loot (North of Novaya Petrovska)");
+		initializeMayorMissionItems();
 		
-		int deleteDelay = 3600 * 1000;
+		foreach (string item, int amount : mayorMissionItems) {
+			for (int i = 0; i < amount; i++)
+				container.GetInventory().CreateInInventory(item);
+		}
+		
+		initializeCollectableItems("mayorsmission");
+		randomItems(container);
+		
+		ExpansionNotification("AI Mission", "A known corrupt mayor is in town with his personal guards. Take them out and retrieve their loot. Look at the map for the location! This mission expires in 2 hours.", EXPANSION_NOTIFICATION_ICON_INFO, COLOR_EXPANSION_NOTIFICATION_INFO, 20).Create();
+		
+		
+		int deleteDelay = 7200 * 1000;
 		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(clearMissionAI, deleteDelay, false);
 		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(GetGame().ObjectDelete, deleteDelay, false, container);
 	}
 	
 	void CultMissionPrud() {
+		Print("AIMISSIONS: Cult mission starting");
 		// Roamer AI's
-		SpawnAIGroup(4, "6533.828125 334.637909 9320.370117", {"6533.828125 334.637909 9320.370117", "6519.212891 334.238129 9325.432617", "6493.125000 333.994263 9287.652344", "6524.303711 335.116333 9266.854492", "6549.198242 335.551178 9311.098633"}, "NBCLoadout.json", 1, 3, eAIWaypointBehavior.LOOP, false, true);
-		SpawnAIGroup(4, "6542.518066 335.113007 9300.847656", {"6542.518066 335.113007 9300.847656", "6549.145020 335.549988 9311.090820", "6524.171387 334.394165 9332.436523", "6493.015137 333.138397 9322.437500", "6478.533691 333.744080 9290.494141", "6530.921875 335.189606 9256.424805"}, "NBCLoadout.json", 1, 3, eAIWaypointBehavior.LOOP, false, true);
-		SpawnAIGroup(4, "6503.906738 334.431610 9276.807617", {"6503.906738 334.431610 9276.807617", "6525.464844 335.059082 9267.892578", "6548.937988 335.577209 9310.794922", "6514.381348 334.067932 9333.962891", "6477.785645 333.843750 9288.736328", "6524.399414 335.129761 9266.682617", "6488.390625 334.549713 9282.001953"}, "NBCLoadout.json", 1, 3, eAIWaypointBehavior.LOOP, false, true);
-		SpawnAIGroup(4, "6504.208496 333.830719 9307.474609", {"6504.208496 333.830719 9307.474609", "6492.833984 334.214783 9283.935547", "6525.894043 335.059021 9267.982422", "6550.620117 335.515900 9312.705078", "6515.788086 334.124237 9333.909180"}, "NBCLoadout.json", 1, 3, eAIWaypointBehavior.LOOP, false, true);
+		SpawnAIGroup(4, "6533.828125 334.637909 9320.370117", {"6533.828125 334.637909 9320.370117", "6519.212891 334.238129 9325.432617", "6493.125000 333.994263 9287.652344", "6524.303711 335.116333 9266.854492", "6549.198242 335.551178 9311.098633"}, "AIMissio_Cultist.json", 1, 3, eAIWaypointBehavior.LOOP, false, true);
+		SpawnAIGroup(4, "6542.518066 335.113007 9300.847656", {"6542.518066 335.113007 9300.847656", "6549.145020 335.549988 9311.090820", "6524.171387 334.394165 9332.436523", "6493.015137 333.138397 9322.437500", "6478.533691 333.744080 9290.494141", "6530.921875 335.189606 9256.424805"}, "AIMissio_Cultist.json", 1, 3, eAIWaypointBehavior.LOOP, false, true);
+		SpawnAIGroup(4, "6503.906738 334.431610 9276.807617", {"6503.906738 334.431610 9276.807617", "6525.464844 335.059082 9267.892578", "6548.937988 335.577209 9310.794922", "6514.381348 334.067932 9333.962891", "6477.785645 333.843750 9288.736328", "6524.399414 335.129761 9266.682617", "6488.390625 334.549713 9282.001953"}, "AIMissio_Cultist.json", 1, 3, eAIWaypointBehavior.LOOP, false, true);
+		SpawnAIGroup(4, "6504.208496 333.830719 9307.474609", {"6504.208496 333.830719 9307.474609", "6492.833984 334.214783 9283.935547", "6525.894043 335.059021 9267.982422", "6550.620117 335.515900 9312.705078", "6515.788086 334.124237 9333.909180"}, "AIMissio_Cultist.json", 1, 3, eAIWaypointBehavior.LOOP, false, true);
 		
 		// Static AI
-		SpawnAIGroup(1, "6533.862793 334.754272 9310.730469", {"6533.862793 334.754272 9310.730469"}, "NBCLoadout.json", 1, 3, eAIWaypointBehavior.ALTERNATE, false, true);
-		SpawnAIGroup(1, "6532.701660 334.755219 9307.619141", {"6532.701660 334.755219 9307.619141"}, "NBCLoadout.json", 1, 3, eAIWaypointBehavior.ALTERNATE, false, true);
-		SpawnAIGroup(1, "6524.984375 334.755219 9312.909180", {"6524.984375 334.755219 9312.909180"}, "NBCLoadout.json", 1, 3, eAIWaypointBehavior.ALTERNATE, false, true);
-		SpawnAIGroup(1, "6522.389648 334.700195 9313.767578", {"6522.389648 334.700195 9313.767578"}, "NBCLoadout.json", 1, 3, eAIWaypointBehavior.ALTERNATE, false, true);
-		SpawnAIGroup(1, "6515.789551 334.691956 9303.717773", {"6515.789551 334.691956 9303.717773"}, "NBCLoadout.json", 1, 3, eAIWaypointBehavior.ALTERNATE, false, true);
-		SpawnAIGroup(1, "6516.066895 334.900909 9290.026367", {"6516.066895 334.900909 9290.026367"}, "NBCLoadout.json", 1, 3, eAIWaypointBehavior.ALTERNATE, false, true);
-		SpawnAIGroup(1, "6526.416016 339.908081 9291.657227", {"6526.416016 339.908081 9291.657227"}, "NBCLoadout.json", 1, 3, eAIWaypointBehavior.ALTERNATE, false, true);
-		SpawnAIGroup(1, "6524.332031 351.977600 9290.831055", {"6524.332031 351.977600 9290.831055"}, "NBCLoadout.json", 1, 3, eAIWaypointBehavior.ALTERNATE, false, true);
-		SpawnAIGroup(1, "6511.470703 334.695313 9300.480469", {"6511.470703 334.695313 9300.480469"}, "NBCLoadout.json", 1, 3, eAIWaypointBehavior.ALTERNATE, false, true);
-		SpawnAIGroup(1, "6534.102051 337.930725 9310.946289", {"6534.102051 337.930725 9310.946289"}, "NBCLoadout.json", 1, 3, eAIWaypointBehavior.ALTERNATE, false, true);
-		SpawnAIGroup(1, "6532.974609 337.928314 9308.441406", {"6532.974609 337.928314 9308.441406"}, "NBCLoadout.json", 1, 3, eAIWaypointBehavior.ALTERNATE, false, true);
-		SpawnAIGroup(1, "6529.171387 334.509308 9317.621094", {"6529.171387 334.509308 9317.621094"}, "NBCLoadout.json", 1, 3, eAIWaypointBehavior.ALTERNATE, false, true);
-		SpawnAIGroup(1, "6536.806152 334.694092 9313.251953", {"6536.806152 334.694092 9313.251953"}, "NBCLoadout.json", 1, 3, eAIWaypointBehavior.ALTERNATE, false, true);
-
+		SpawnAIGroup(1, "6533.862793 334.754272 9310.730469", {"6533.862793 334.754272 9310.730469"}, "AIMissio_Cultist.json", 1, 3, eAIWaypointBehavior.ALTERNATE, false, true);
+		SpawnAIGroup(1, "6532.701660 334.755219 9307.619141", {"6532.701660 334.755219 9307.619141"}, "AIMissio_Cultist.json", 1, 3, eAIWaypointBehavior.ALTERNATE, false, true);
+		SpawnAIGroup(1, "6524.984375 334.755219 9312.909180", {"6524.984375 334.755219 9312.909180"}, "AIMissio_Cultist.json", 1, 3, eAIWaypointBehavior.ALTERNATE, false, true);
+		SpawnAIGroup(1, "6522.389648 334.700195 9313.767578", {"6522.389648 334.700195 9313.767578"}, "AIMissio_Cultist.json", 1, 3, eAIWaypointBehavior.ALTERNATE, false, true);
+		SpawnAIGroup(1, "6515.789551 334.691956 9303.717773", {"6515.789551 334.691956 9303.717773"}, "AIMissio_Cultist.json", 1, 3, eAIWaypointBehavior.ALTERNATE, false, true);
+		SpawnAIGroup(1, "6516.066895 334.900909 9290.026367", {"6516.066895 334.900909 9290.026367"}, "AIMissio_Cultist.json", 1, 3, eAIWaypointBehavior.ALTERNATE, false, true);
+		SpawnAIGroup(1, "6526.416016 339.908081 9291.657227", {"6526.416016 339.908081 9291.657227"}, "AIMissio_Cultist.json", 1, 3, eAIWaypointBehavior.ALTERNATE, false, true);
+		SpawnAIGroup(1, "6524.332031 351.977600 9290.831055", {"6524.332031 351.977600 9290.831055"}, "AIMissio_Cultist.json", 1, 3, eAIWaypointBehavior.ALTERNATE, false, true);
+		SpawnAIGroup(1, "6511.470703 334.695313 9300.480469", {"6511.470703 334.695313 9300.480469"}, "AIMissio_Cultist.json", 1, 3, eAIWaypointBehavior.ALTERNATE, false, true);
+		SpawnAIGroup(1, "6534.102051 337.930725 9310.946289", {"6534.102051 337.930725 9310.946289"}, "AIMissio_Cultist.json", 1, 3, eAIWaypointBehavior.ALTERNATE, false, true);
+		SpawnAIGroup(1, "6532.974609 337.928314 9308.441406", {"6532.974609 337.928314 9308.441406"}, "AIMissio_Cultist.json", 1, 3, eAIWaypointBehavior.ALTERNATE, false, true);
+		SpawnAIGroup(1, "6529.171387 334.509308 9317.621094", {"6529.171387 334.509308 9317.621094"}, "AIMissio_Cultist.json", 1, 3, eAIWaypointBehavior.ALTERNATE, false, true);
+		SpawnAIGroup(1, "6536.806152 334.694092 9313.251953", {"6536.806152 334.694092 9313.251953"}, "AIMissio_Cultist.json", 1, 3, eAIWaypointBehavior.ALTERNATE, false, true);
 		
-		ItemBase container = ItemBase.Cast( GetGame().CreateObject("BO_MilitaryCrate_Green", "6527.232422 351.964569 9292.250000", false, false));
-		container.GetInventory().CreateInInventory("Potato");
+		ItemBase container = ItemBase.Cast( GetGame().CreateObject("BO_MilitaryCrateStack", "6526.787109 351.964661 9292.732422", false, false));
+		container.SetOrientation("126.325554 0.000000 -0.000000");
 		
-		NotificationSystem.SimpleNoticiation("The cultist group has gathered in the abandoned church near the lake Prud.");
+		initializeCultistMissionItems();
 		
-		int deleteDelay = 3600 * 1000;
+		foreach (string item, int amount : cultistMissionItems) {
+			for (int i = 0; i < amount; i++)
+				container.GetInventory().CreateInInventory(item);
+		}
+		
+		initializeCollectableItems("cultistmission");
+		randomItems(container);
+		
+		ExpansionNotification("AI Mission", "The cultist group has gathered in the abandoned church near the lake Prud. Look at the map for the location! This mission expires in 2 hours.", EXPANSION_NOTIFICATION_ICON_INFO, COLOR_EXPANSION_NOTIFICATION_INFO, 20).Create();
+		
+		int deleteDelay = 7200 * 1000;
 		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(clearMissionAI, deleteDelay, false);
 		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(GetGame().ObjectDelete, deleteDelay, false, container);
 	}
 	
 	void MedicalSupplyMission() {
+		Print("AIMISSIONS: Medical mission starting");
 		// Roamer AI's
-		SpawnAIGroup(6, "8952.627930 291.523254 8540.450195", {"8952.627930 291.523254 8540.450195", "8944.233398 290.355164 8520.263672", "8992.196289 280.759308 8500.657227", "9007.598633 286.140533 8553.053711", "8954.490234 294.891602 8565.521484"}, "NBC_AIMissio_useampi_ase.json", 1, 3, eAIWaypointBehavior.LOOP, false, true);
-		SpawnAIGroup(6, "8961.95 291.867 8551.71", {"8961.95 291.867 8551.71", "8957.35 288.417 8522.08", "8977.22 285.29 8521.61", "8981.6 288.799 8549.43"}, "NBC_AIMissio_useampi_ase.json", 1, 3, eAIWaypointBehavior.LOOP, false, true);
+		SpawnAIGroup(6, "8952.627930 291.523254 8540.450195", {"8952.627930 291.523254 8540.450195", "8944.233398 290.355164 8520.263672", "8992.196289 280.759308 8500.657227", "9007.598633 286.140533 8553.053711", "8954.490234 294.891602 8565.521484"}, "NBC_AIMissio_MedicalSupply.json", 1, 3, eAIWaypointBehavior.LOOP, false, true);
+		SpawnAIGroup(6, "8961.95 291.867 8551.71", {"8961.95 291.867 8551.71", "8957.35 288.417 8522.08", "8977.22 285.29 8521.61", "8981.6 288.799 8549.43"}, "NBC_AIMissio_MedicalSupply.json", 1, 3, eAIWaypointBehavior.LOOP, false, true);
 
 		// Static AI's
-		SpawnAIGroup(1, "8971.9 286.998 8528.93", {"8971.9 286.998 8528.93"}, "NBC_AIMissio_useampi_ase.json", 1, 3, eAIWaypointBehavior.ALTERNATE, false, true);
-		SpawnAIGroup(1, "8963.43 288.8 8532.12", {"8963.43 288.8 8532.12"}, "NBC_AIMissio_useampi_ase.json", 1, 3, eAIWaypointBehavior.ALTERNATE, false, true);
-		SpawnAIGroup(1, "8973.35 288.876 8543.24", {"8973.35 288.876 8543.24"}, "NBC_AIMissio_useampi_ase.json", 1, 3, eAIWaypointBehavior.ALTERNATE, false, true);
-		SpawnAIGroup(1, "8972.66 288.352 8539.16", {"8972.66 288.352 8539.16"}, "NBC_AIMissio_useampi_ase.json", 1, 3, eAIWaypointBehavior.ALTERNATE, false, true);
-		SpawnAIGroup(1, "8968.99 288.903 8539.29", {"8968.99 288.903 8539.29"}, "NBC_AIMissio_useampi_ase.json", 1, 3, eAIWaypointBehavior.ALTERNATE, false, true);
-		SpawnAIGroup(1, "8966.21 288.637 8534.72", {"8966.21 288.637 8534.72"}, "NBC_AIMissio_useampi_ase.json", 1, 3, eAIWaypointBehavior.ALTERNATE, false, true);
-		SpawnAIGroup(1, "8967.75 290.428 8547.89", {"8967.75 290.428 8547.89"}, "NBC_AIMissio_useampi_ase.json", 1, 3, eAIWaypointBehavior.ALTERNATE, false, true);
+		SpawnAIGroup(1, "8971.9 286.998 8528.93", {"8971.9 286.998 8528.93"}, "NBC_AIMissio_MedicalSupply.json", 1, 3, eAIWaypointBehavior.ALTERNATE, false, true);
+		SpawnAIGroup(1, "8963.43 288.8 8532.12", {"8963.43 288.8 8532.12"}, "NBC_AIMissio_MedicalSupply.json", 1, 3, eAIWaypointBehavior.ALTERNATE, false, true);
+		SpawnAIGroup(1, "8973.35 288.876 8543.24", {"8973.35 288.876 8543.24"}, "NBC_AIMissio_MedicalSupply.json", 1, 3, eAIWaypointBehavior.ALTERNATE, false, true);
+		SpawnAIGroup(1, "8972.66 288.352 8539.16", {"8972.66 288.352 8539.16"}, "NBC_AIMissio_MedicalSupply.json", 1, 3, eAIWaypointBehavior.ALTERNATE, false, true);
+		SpawnAIGroup(1, "8968.99 288.903 8539.29", {"8968.99 288.903 8539.29"}, "NBC_AIMissio_MedicalSupply.json", 1, 3, eAIWaypointBehavior.ALTERNATE, false, true);
+		SpawnAIGroup(1, "8966.21 288.637 8534.72", {"8966.21 288.637 8534.72"}, "NBC_AIMissio_MedicalSupply.json", 1, 3, eAIWaypointBehavior.ALTERNATE, false, true);
+		SpawnAIGroup(1, "8967.75 290.428 8547.89", {"8967.75 290.428 8547.89"}, "NBC_AIMissio_MedicalSupply.json", 1, 3, eAIWaypointBehavior.ALTERNATE, false, true);
 
 		
 		
@@ -212,14 +400,22 @@ class AIMissions : eAICommandManagerClient {
 
 		ItemBase container = ItemBase.Cast(GetGame().CreateObject("BO_MilitaryCrateLarge_Green", "8975.1796875 289.3372802734375 8542.1298828125"));
 		container.SetOrientation("103.92999267578125 -4.590911388397217 10.402400016784668");
-		container.GetInventory().CreateInInventory("Potato");
+		
+		initializeMedicalMissionItems();
+		
+		foreach (string item, int amount : medicalMissionItems) {
+			for (int i = 0; i < amount; i++)
+				container.GetInventory().CreateInInventory(item);
+		}
+		
+		initializeCollectableItems("medicalmission");
+		randomItems(container);
 		
 		array<Object> objectsToDelete = {obj1, obj2, obj3, obj4, obj5, obj6, obj7, obj8, obj9, obj10, obj11, obj12, obj13, container};
 
-
-		NotificationSystem.SimpleNoticiation("A medical supply mission has appeared");
+		ExpansionNotification("AI Mission", "A medical supply mission has appeared. Look at the map for the location! This mission expires in 2 hours.", EXPANSION_NOTIFICATION_ICON_INFO, COLOR_EXPANSION_NOTIFICATION_INFO, 20).Create();
 		
-		int deleteDelay = 3600 * 1000;
+		int deleteDelay = 7200 * 1000;
 		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(clearMissionAI, deleteDelay, false);
 		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(clearObjects, deleteDelay, false, objectsToDelete);
 
@@ -227,8 +423,9 @@ class AIMissions : eAICommandManagerClient {
 	
 	void WeaponCacheMission() {
 		// Roamer AI's
-		SpawnAIGroup(6, "6974.750977 270.314301 5374.815918", {"6974.750977 270.314301 5374.815918", "6984.889648 271.112701 5401.129883", "7011.294434 268.021667 5391.036133", "7011.309082 265.468872 5340.411133", "6972.654785 269.134369 5343.968750"}, "MilitarySpecopsNight.json", 1, 3, eAIWaypointBehavior.LOOP, false, true);
-		SpawnAIGroup(6, "6989.181152 270.050995 5392.954102", {"6989.181152 270.050995 5392.954102", "6986.269531 268.360474 5358.598145", "7003.508789 266.872253 5356.335938", "7002.621582 268.844391 5393.245605"}, "MilitarySpecopsNight.json", 1, 3, eAIWaypointBehavior.LOOP, false, true);
+		Print("AIMISSIONS: Weapon mission starting");
+		SpawnAIGroup(6, "6974.750977 270.314301 5374.815918", {"6974.750977 270.314301 5374.815918", "6984.889648 271.112701 5401.129883", "7011.294434 268.021667 5391.036133", "7011.309082 265.468872 5340.411133", "6972.654785 269.134369 5343.968750"}, "NBC_AIMissio_WeaponStash.json", 1, 3, eAIWaypointBehavior.LOOP, false, true);
+		SpawnAIGroup(6, "6989.181152 270.050995 5392.954102", {"6989.181152 270.050995 5392.954102", "6986.269531 268.360474 5358.598145", "7003.508789 266.872253 5356.335938", "7002.621582 268.844391 5393.245605"}, "NBC_AIMissio_WeaponStash.json", 1, 3, eAIWaypointBehavior.LOOP, false, true);
 
 		
 		// At the tent AI's
@@ -236,13 +433,13 @@ class AIMissions : eAICommandManagerClient {
 		SpawnAIGroup(1, "6992.566895 268.399719 5370.898926", {"6992.566895 268.399719 5370.898926", "6999.826660 267.855316 5371.640137"}, "MilitarySniper.json", 1, 3, eAIWaypointBehavior.LOOP, false, true);
 		
 		// Static AI's
-		SpawnAIGroup(1, "6999.506836 267.614105 5366.254883", {"6999.506836 267.614105 5366.254883"}, "MilitarySpecopsNight.json", 1, 3, eAIWaypointBehavior.ALTERNATE, false, true);
-		SpawnAIGroup(1, "6994.668457 268.035461 5367.029785", {"6994.668457 268.035461 5367.029785"}, "MilitarySpecopsNight.json", 1, 3, eAIWaypointBehavior.ALTERNATE, false, true);
-		SpawnAIGroup(1, "6991.110352 268.997314 5379.515625", {"6991.110352 268.997314 5379.515625"}, "MilitarySpecopsNight.json", 1, 3, eAIWaypointBehavior.ALTERNATE, false, true);
-		SpawnAIGroup(1, "6991.616211 268.641815 5373.963867", {"6991.616211 268.641815 5373.963867"}, "MilitarySpecopsNight.json", 1, 3, eAIWaypointBehavior.ALTERNATE, false, true);
-		SpawnAIGroup(1, "6998.662109 268.185181 5376.310059", {"6998.662109 268.185181 5376.310059"}, "MilitarySpecopsNight.json", 1, 3, eAIWaypointBehavior.ALTERNATE, false, true);
-		SpawnAIGroup(1, "6993.026855 269.374084 5388.149414", {"6993.026855 269.374084 5388.149414"}, "MilitarySpecopsNight.json", 1, 3, eAIWaypointBehavior.ALTERNATE, false, true);
-		SpawnAIGroup(1, "6998.246582 268.809418 5386.705566", {"6998.246582 268.809418 5386.705566"}, "MilitarySpecopsNight.json", 1, 3, eAIWaypointBehavior.ALTERNATE, false, true);
+		SpawnAIGroup(1, "6999.506836 267.614105 5366.254883", {"6999.506836 267.614105 5366.254883"}, "NBC_AIMissio_WeaponStash.json", 1, 3, eAIWaypointBehavior.ALTERNATE, false, true);
+		SpawnAIGroup(1, "6994.668457 268.035461 5367.029785", {"6994.668457 268.035461 5367.029785"}, "NBC_AIMissio_WeaponStash.json", 1, 3, eAIWaypointBehavior.ALTERNATE, false, true);
+		SpawnAIGroup(1, "6991.110352 268.997314 5379.515625", {"6991.110352 268.997314 5379.515625"}, "NBC_AIMissio_WeaponStash.json", 1, 3, eAIWaypointBehavior.ALTERNATE, false, true);
+		SpawnAIGroup(1, "6991.616211 268.641815 5373.963867", {"6991.616211 268.641815 5373.963867"}, "NBC_AIMissio_WeaponStash.json", 1, 3, eAIWaypointBehavior.ALTERNATE, false, true);
+		SpawnAIGroup(1, "6998.662109 268.185181 5376.310059", {"6998.662109 268.185181 5376.310059"}, "NBC_AIMissio_WeaponStash.json", 1, 3, eAIWaypointBehavior.ALTERNATE, false, true);
+		SpawnAIGroup(1, "6993.026855 269.374084 5388.149414", {"6993.026855 269.374084 5388.149414"}, "NBC_AIMissio_WeaponStash.json", 1, 3, eAIWaypointBehavior.ALTERNATE, false, true);
+		SpawnAIGroup(1, "6998.246582 268.809418 5386.705566", {"6998.246582 268.809418 5386.705566"}, "NBC_AIMissio_WeaponStash.json", 1, 3, eAIWaypointBehavior.ALTERNATE, false, true);
 		
 
 		Object obj1 = Object.Cast(GetGame().CreateObject("vbldr_mil_tent_big4", "6995.5908203125 270.01202392578127 5382.95654296875"));
@@ -268,16 +465,23 @@ class AIMissions : eAICommandManagerClient {
 
 		ItemBase container = ItemBase.Cast(GetGame().CreateObject("mmg_palette_storage", "6997.643066 268.125275 5373.694336"));
 		container.SetOrientation("4.26525 2.73363 0.998696");
-		container.GetInventory().CreateInInventory("Potato");
+		
+		initializeWeaponMissionItems();
+		
+		foreach (string item, int amount : weaponMissionItems) {
+			for (int i = 0; i < amount; i++)
+				container.GetInventory().CreateInInventory(item);
+		}
+		
+		initializeCollectableItems("weaponscachemission");
+		randomItems(container);
 		
 		array<Object> objectsToDelete = {obj1, obj2, obj3, obj4, obj5, obj6, obj7, container};
 
-
-		NotificationSystem.SimpleNoticiation("A weapon cache mission has appeared");
+		ExpansionNotification("AI Mission", "A weapon cache mission has appeared. Look at the map for the location! This mission expires in 2 hours.", EXPANSION_NOTIFICATION_ICON_INFO, COLOR_EXPANSION_NOTIFICATION_INFO, 20).Create();
 		
-		int deleteDelay = 3600 * 1000;
+		int deleteDelay = 7200 * 1000;
 		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(clearMissionAI, deleteDelay, false);
 		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(clearObjects, deleteDelay, false, objectsToDelete);
 	}
-
 }

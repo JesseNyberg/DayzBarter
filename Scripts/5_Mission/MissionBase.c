@@ -3,7 +3,6 @@ modded class MissionBase {
 	void MissionBase()
 	{
 		GetRPCManager().AddRPC("BarterMod", "RPCBuy", this, SingleplayerExecutionType.Both);
-		// GetRPCManager().AddRPC("BarterMod", "RPCBarterLevelUp", this, SingleplayerExecutionType.Both);
 	}
 	
 	int ReadPlayerSkillLevel(string fileName) {
@@ -21,7 +20,6 @@ modded class MissionBase {
 		return 0; 
 	}
 
-	// Function to write the player's skill level to a file
 	bool WritePlayerSkillLevel(string fileName, int skillLevel) {
 		PlayerBase player = PlayerBase.Cast(GetGame().GetPlayer());
 		FileHandle file = OpenFile(fileName, FileMode.WRITE);
@@ -30,7 +28,7 @@ modded class MissionBase {
 			CloseFile(file);
 			return true;
 		}
-		return false; // Return false if the file can't be written
+		return false;
 	}
 	
 	bool ManagePlayerSkillLevel(string steamID, int skillIncrement) {
@@ -46,9 +44,7 @@ modded class MissionBase {
 		
 		string fileName = fileFolder + steamID + ".txt";
 
-		// Check if the file exists
 		if (FileExist(fileName)) {
-			// File exists, read the current skill level
 			int currentSkillLevel = ReadPlayerSkillLevel(fileName);
 			
 			if (currentSkillLevel == 0) {
@@ -56,21 +52,16 @@ modded class MissionBase {
 				return false;
 			}
 
-			// Increment the skill level
 			currentSkillLevel += skillIncrement;
 
-			// Save the updated skill level back to the file
 			if (WritePlayerSkillLevel(fileName, currentSkillLevel)) {
-				Print("BARTER: Skill level incremented for " + steamID + ". New skill level: " + currentSkillLevel);
 				return true;
 			} else {
 				Print("BARTER: Failed to update skill level for " + steamID);
 				return false;
 			}
 		} else {
-			// File doesn't exist, create it with an initial value of 1
 			if (WritePlayerSkillLevel(fileName, 1)) {
-				Print("BARTER: Skill level file created for " + steamID + ". Initial skill level: 1");
 				return true;
 			} else {
 				Print("BARTER: Failed to create skill level file for " + steamID);
@@ -89,7 +80,7 @@ modded class MissionBase {
 				if(item.GetType() == recipeProduct) {
 					if (item.IsRuined())
 					{
-						player.MessageImportant("One of the recipe items was ruined!");
+						ExpansionNotification("Barter", "One of the recipe items was ruined!").Error(player.GetIdentity());
 						continue; 
 					}
 					removableObjects.Insert(item);
@@ -112,7 +103,6 @@ modded class MissionBase {
 				return;
 			}
 			
-			Print("BARTER: RPCBuy is started");
 
 			PlayerBase player = data.param1;
 			array<string> SrecipeEntities = data.param2;
@@ -120,78 +110,48 @@ modded class MissionBase {
 			
 
 			if (player) {
-				Print("BARTER: if player");
 				
 				array<EntityAI> removableObjects = new array<EntityAI>;
 				
 				foreach (string itemRecipeString : SrecipeEntities) {
 					if (itemRecipeString) {
 						bool hasItem = IsItemOnPlayer(player, itemRecipeString, removableObjects);
-						Print("BARTER: has item is " + hasItem);
 					}
 				}
 
 				if (removableObjects.Count() == SrecipeEntities.Count()) {
-					Print("BARTER: Player has the items needed for buying");
 					
 					foreach (EntityAI itemToDelete : removableObjects) {
 						GetGame().ObjectDelete(itemToDelete);
 					}
 					
-					player.GetInventory().CreateInInventory(SfinalProduct);
+					EntityAI finalProduct = createEntity(SfinalProduct);
+					bool inventoryNotFull = player.GetInventory().CanAddEntityToInventory(finalProduct);
+					
+					if (inventoryNotFull) {
+						EntityAI finalProductEntity = player.GetInventory().CreateInInventory(SfinalProduct);
+					} else {
+						player.SpawnEntityOnGroundPos(SfinalProduct, player.GetPosition());
+					}
 					
 					string steamID = player.GetIdentity().GetId();
 					int skillIncrement = 1;
+					
 					if (ManagePlayerSkillLevel(steamID, skillIncrement)) {
 						player.m_currentSkillLevel += 1;
+						GetRPCManager().SendRPC("BarterMod", "RPCUpdateLevelText", new Param1<int>(player.m_currentSkillLevel), true, sender);
 					}
-					//player.MessageFriendly("You successfully traded " + SrecipeProduct1 + " and " + SrecipeProduct2 + " for " + SfinalProduct + "!");
+					
+					
+					
+					ExpansionNotification("Barter", "Successful barter").Success(player.GetIdentity());
 				} else {
-					player.MessageImportant("You don't have the items necessary for this trade!");
-					Print("BARTER: Player doesn't have the items needed for buying");
+					ExpansionNotification("Barter", "You don't have the items needed for this barter.").Error(player.GetIdentity());
 				}
 			}
 		}
 	}
-	
-/* 	void RPCBarterLevelUp(CallType type, ref ParamsReadContext ctx, ref PlayerIdentity sender, ref Object target) {
-		if (type == CallType.Server) {
-			Param1<PlayerBase> data;
-			
-			if (!ctx.Read(data)) {
-				return;
-			}
-			
-			Print("BARTER: RPCArtifact started");
-			
-			PlayerBase player = data.param1;
-			
-			if (player) {
-				string artifactClassName = "Potato";
-				
-				array<EntityAI> removableObjects = new array<EntityAI>;
-
-				bool hasArtifact = IsItemOnPlayer(player, artifactClassName, removableObjects);
-				
-				if (hasArtifact) {
-					Print("BARTER: Player has the artifact");
-					foreach (EntityAI item : removableObjects) {
-						GetGame().ObjectDelete(item);
-					}
-					string steamID = player.GetIdentity().GetId();
-					int skillIncrement = 1; // Change this as needed
-					ManagePlayerSkillLevel(steamID, skillIncrement);
-					player.m_currentSkillLevel += 1;
-				} else {
-					Print("BARTER: Artifact not found in inventory");
-				}
-				
-				
-			}
-			
-		}
-	} */
-	
+		
     override UIScriptedMenu CreateScriptedMenu(int id) {
         UIScriptedMenu menu = NULL;
         menu = super.CreateScriptedMenu(id);

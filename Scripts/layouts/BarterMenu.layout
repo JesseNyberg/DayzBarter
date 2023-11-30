@@ -40,19 +40,19 @@ FrameWidgetClass ContainerWidget {
    hexactsize 1
    vexactsize 1
    Columns 4
-   Rows 4
+   Rows 5
   }
   ImageWidgetClass ImageWidget0 {
    ignorepointer 1
-   position 0 -2.75719
+   position 0 -2.76
    size 1280 1024
    hexactpos 1
    vexactpos 1
    hexactsize 1
    vexactsize 1
-   imageTexture "{65A7587296607067}barterbackground.edds"
+   imageTexture "{4B560BC6C80DBCF1}scripts/layouts/barterbackground.edds"
    mode opaque
-   stretch 1
+   "stretch mode" stretch_w_h
   }
   ImageWidgetClass IconClose {
    visible 1
@@ -69,7 +69,7 @@ FrameWidgetClass ContainerWidget {
    image0 "set:dayz_gui image:Close"
    mode blend
    "src alpha" 1
-   "no wrap" 1
+   "clamp mode" clamp
    filter 1
    nocache 0
   }
@@ -86,8 +86,8 @@ FrameWidgetClass ContainerWidget {
   }
   TextWidgetClass selectedName {
    ignorepointer 1
-   position 635.19897 206.076
-   size 269.345 55.7783
+   position 649.77002 212.089
+   size 425.93399 40.9228
    hexactpos 1
    vexactpos 1
    hexactsize 1
@@ -144,14 +144,499 @@ FrameWidgetClass ContainerWidget {
    hexactsize 1
    vexactsize 1
   }
-  TextWidgetClass TextWidget0 {
+  GridSpacerWidgetClass GridSpacerText {
    ignorepointer 1
-   position 38.244 142.255
-   size 249.27501 42.4856
+   position 27.8267 197.18001
+   size 579.82898 698.67401
    hexactpos 1
    vexactpos 1
    hexactsize 1
    vexactsize 1
+   Columns 4
+   Rows 5
+   {
+    TextWidgetClass textRecipe0 {
+     ignorepointer 1
+     position 212.814 225.382
+     size 48 48
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     "exact text" 1
+	 "exact text size" 10
+     text_proportion 0.1
+     "text halign" center
+    }
+    TextWidgetClass textRecipe1 {
+     ignorepointer 1
+     position 196.814 217.382
+     size 48 48
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     "exact text" 1
+	 "exact text size" 10
+     text_proportion 0.1
+     "text halign" center
+    }
+    TextWidgetClass textRecipe2 {
+     ignorepointer 1
+     position 190.814 277.38199
+     size 48 48
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     "exact text" 1
+	 "exact text size" 10
+     text_proportion 0.1
+     "text halign" center
+    }
+    TextWidgetClass textRecipe3 {
+     ignorepointer 1
+     position 222.814 231.382
+     size 48 48
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     "exact text" 1
+	 "exact text size" 10
+     text_proportion 0.1
+     "text halign" center
+    }
+    TextWidgetClass textRecipe4 {
+     ignorepointer 1
+     position 174.814 263.38199
+     size 48 48
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     "exact text" 1
+	 "exact text size" 10
+     text_proportion 0.1
+     "text halign" center
+    }
+    TextWidgetClass textRecipe5 {
+     ignorepointer 1
+     position 268.814 261.38199
+     size 48 48
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     "exact text" 1
+	 "exact text size" 10
+     text_proportion 0.1
+     "text halign" center
+    }
+    TextWidgetClass textRecipe6 {
+     ignorepointer 1
+     position 180.814 293.38199
+     size 48 48
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     "exact text" 1
+	 "exact text size" 10
+     text_proportion 0.1
+     "text halign" center
+    }
+    TextWidgetClass textRecipe7 {
+     ignorepointer 1
+     position 272.814 289.38199
+     size 48 48
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     "exact text" 1
+	 "exact text size" 10
+     text_proportion 0.1
+     "text halign" center
+    }
+    TextWidgetClass textRecipe8 {
+     ignorepointer 1
+     position 134.814 245.382
+     size 48 48
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     "exact text" 1
+	 "exact text size" 10
+     text_proportion 0.1
+     "text halign" center
+    }
+    TextWidgetClass textRecipe9 {
+     ignorepointer 1
+     position 302.814 295.38199
+     size 48 48
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     "exact text" 1
+	 "exact text size" 10
+     text_proportion 0.1
+     "text halign" center
+    }
+    TextWidgetClass textRecipe10 {
+     ignorepointer 1
+     position 242.814 279.38199
+     size 48 48
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     "exact text" 1
+	 "exact text size" 10
+     text_proportion 0.1
+     "text halign" center
+    }
+    TextWidgetClass textRecipe11 {
+     ignorepointer 1
+     position 310.814 261.38199
+     size 48 48
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     "exact text" 1
+	 "exact text size" 10
+     text_proportion 0.1
+     "text halign" center
+    }
+    TextWidgetClass textRecipe12 {
+     ignorepointer 1
+     position 70.81361 323.38199
+     size 48 48
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     "exact text" 1
+	 "exact text size" 10
+     text_proportion 0.1
+     "text halign" center
+    }
+    TextWidgetClass textRecipe13 {
+     ignorepointer 1
+     position 302.814 323.38199
+     size 48 48
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     "exact text" 1
+	 "exact text size" 10
+     text_proportion 0.1
+     "text halign" center
+    }
+    TextWidgetClass textRecipe14 {
+     ignorepointer 1
+     position 294.814 305.38199
+     size 48 48
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     "exact text" 1
+	 "exact text size" 10
+     text_proportion 0.1
+     "text halign" center
+    }
+    TextWidgetClass textRecipe15 {
+     ignorepointer 1
+     position 346.814 355.38199
+     size 48 48
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     "exact text" 1
+	 "exact text size" 10
+     text_proportion 0.1
+     "text halign" center
+    }
+    TextWidgetClass textRecipe16 {
+     ignorepointer 1
+     position 112.814 433.38199
+     size 48 48
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     "exact text" 1
+	 "exact text size" 10
+     text_proportion 0.1
+     "text halign" center
+    }
+    TextWidgetClass textRecipe17 {
+     ignorepointer 1
+     position 322.814 429.38199
+     size 48 48
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     "exact text" 1
+	 "exact text size" 10
+     text_proportion 0.1
+     "text halign" center
+    }
+    TextWidgetClass textRecipe18 {
+     ignorepointer 1
+     position 290.814 407.38199
+     size 48 48
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     "exact text" 1
+	 "exact text size" 10
+     text_proportion 0.1
+     "text halign" center
+    }
+    TextWidgetClass textRecipe19 {
+     ignorepointer 1
+     position 306.814 403.38199
+     size 48 48
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     "exact text" 1
+	 "exact text size" 10
+     text_proportion 0.1
+     "text halign" center
+    }
+   }
+  }
+  GridSpacerWidgetClass GridSpacerPreviewText {
+   ignorepointer 1
+   position 642.84698 318.996
+   size 374.82297 508.52298
+   hexactpos 1
+   vexactpos 1
+   hexactsize 1
+   vexactsize 1
+   Columns 4
+   Rows 4
+   {
+    TextWidgetClass textRecipePreview0 {
+     ignorepointer 1
+     position 10 10
+     size 48 48
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     "exact text" 1
+     "exact text size" 9
+     text_proportion 0.1
+     "text halign" center
+    }
+    TextWidgetClass textRecipePreview1 {
+     ignorepointer 1
+     position 10 10
+     size 48 48
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     "exact text" 1
+     "exact text size" 9
+     text_proportion 0.1
+     "text halign" center
+    }
+    TextWidgetClass textRecipePreview2 {
+     ignorepointer 1
+     position 10 10
+     size 48 48
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     "exact text" 1
+     "exact text size" 9
+     text_proportion 0.1
+     "text halign" center
+    }
+    TextWidgetClass textRecipePreview3 {
+     ignorepointer 1
+     position 10 10
+     size 48 48
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     "exact text" 1
+     "exact text size" 9
+     text_proportion 0.1
+     "text halign" center
+    }
+    TextWidgetClass textRecipePreview4 {
+     ignorepointer 1
+     position 10 10
+     size 48 48
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     "exact text" 1
+     "exact text size" 9
+     text_proportion 0.1
+     "text halign" center
+    }
+    TextWidgetClass textRecipePreview5 {
+     ignorepointer 1
+     position 10 10
+     size 48 48
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     "exact text" 1
+     "exact text size" 9
+     text_proportion 0.1
+     "text halign" center
+    }
+    TextWidgetClass textRecipePreview6 {
+     ignorepointer 1
+     position 10 10
+     size 48 48
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     "exact text" 1
+     "exact text size" 9
+     text_proportion 0.1
+     "text halign" center
+    }
+    TextWidgetClass textRecipePreview7 {
+     ignorepointer 1
+     position 10 10
+     size 48 48
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     "exact text" 1
+     "exact text size" 9
+     text_proportion 0.1
+     "text halign" center
+    }
+    TextWidgetClass textRecipePreview8 {
+     ignorepointer 1
+     position 10 10
+     size 48 48
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     "exact text" 1
+     "exact text size" 9
+     text_proportion 0.1
+     "text halign" center
+    }
+    TextWidgetClass textRecipePreview9 {
+     ignorepointer 1
+     position 10 10
+     size 48 48
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     "exact text" 1
+     "exact text size" 9
+     text_proportion 0.1
+     "text halign" center
+    }
+    TextWidgetClass textRecipePreview10 {
+     ignorepointer 1
+     position 10 10
+     size 48 48
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     "exact text" 1
+     "exact text size" 9
+     text_proportion 0.1
+     "text halign" center
+    }
+    TextWidgetClass textRecipePreview11 {
+     ignorepointer 1
+     position 10 10
+     size 48 48
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     "exact text" 1
+     "exact text size" 9
+     text_proportion 0.1
+     "text halign" center
+    }
+    TextWidgetClass textRecipePreview12 {
+     ignorepointer 1
+     position 10 10
+     size 48 48
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     "exact text" 1
+     "exact text size" 9
+     text_proportion 0.1
+     "text halign" center
+    }
+    TextWidgetClass textRecipePreview13 {
+     ignorepointer 1
+     position 10 10
+     size 48 48
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     "exact text" 1
+     "exact text size" 9
+     text_proportion 0.1
+     "text halign" center
+    }
+    TextWidgetClass textRecipePreview14 {
+     ignorepointer 1
+     position 10 10
+     size 48 48
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     "exact text" 1
+     "exact text size" 9
+     text_proportion 0.1
+     "text halign" center
+    }
+    TextWidgetClass textRecipePreview15 {
+     ignorepointer 1
+     position 10 10
+     size 48 48
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     "exact text" 1
+     "exact text size" 9
+     text_proportion 0.1
+     "text halign" center
+    }
+   }
   }
  }
 }

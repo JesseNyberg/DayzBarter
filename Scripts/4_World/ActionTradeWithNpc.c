@@ -17,7 +17,7 @@ class ActionTradeWithNPC : ActionInteractBase
     override bool ActionCondition(PlayerBase player, ActionTarget target, ItemBase item)
     {
         PlayerBase targetNPC = PlayerBase.Cast(target.GetObject());
-        float maxInteractionDistance = 2.0; 
+        float maxInteractionDistance = 2.5; 
 		
 		//Print("BARTER: Action condition is being checked");
 		
@@ -51,7 +51,7 @@ class ActionTradeWithNPC : ActionInteractBase
 		
 		if (!GetGame().IsServer() && targetNPC)
 		{
-			if (targetNPC.GetType() == "SurvivorM_Elias")
+/* 			if (targetNPC.GetType() == "SurvivorM_Elias")
 			{
 				if (player.m_currentSkillLevel >= 8)
 				{
@@ -66,7 +66,8 @@ class ActionTradeWithNPC : ActionInteractBase
 			else
 			{
 				GetGame().GetUIManager().EnterScriptedMenu(BARTER_UI, null);
-			}
+			} */
+			GetGame().GetUIManager().EnterScriptedMenu(BARTER_UI, null);
 		}
 	}
 }
