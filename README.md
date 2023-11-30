@@ -36,7 +36,7 @@ https://github.com/JesseNyberg/DayZ-BarteringSystem/assets/67522887/f7c4e1dc-e53
 
 
 ## Configuration
-  - ### The following folder is created when the mod is first started: DayZServer\profileFolder\BarterConfig
+  - ### The following folder is created when the mod is first started: DayzServer\profileFolder\BarterConfig
     - #### The files NPCConfig.json and recipeConfig.json are created, but are empty by default. 
 
   
