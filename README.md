@@ -9,7 +9,7 @@
 
 ## Features
 
-https://github.com/JesseNyberg/DayZ-BarteringSystem/assets/67522887/f7c4e1dc-e53e-43fb-bd01-7737a25895cf
+
 
 
 - ### **Unlimited recipes**: 
