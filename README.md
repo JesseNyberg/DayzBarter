@@ -11,6 +11,10 @@
 
 
 
+https://github.com/JesseNyberg/DayZ-BarteringSystem/assets/67522887/e82f4be6-c13c-43bf-aded-207781d2798e
+
+
+
 
 - ### **Unlimited recipes**: 
   - #### You can choose as many "recipes" as you want, that the player needs to get the final product.
