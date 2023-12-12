@@ -70,25 +70,24 @@ modded class MissionBase {
 		}
 	}
 	
-	bool IsItemOnPlayer(PlayerBase player, string recipeProduct, out array<EntityAI> removableObjects) 
-	{
+	bool IsItemOnPlayer(PlayerBase player, array<string> recipeStrings, out array<EntityAI> removableObjects) {
 		array<EntityAI> items = new array<EntityAI>;
-    
-		if(player.GetInventory().EnumerateInventory(1,items)) {    
-			for(int i = 0; i < items.Count(); i++) {
-				EntityAI item = items.Get(i);
-				if(item.GetType() == recipeProduct) {
-					if (item.IsRuined())
-					{
+		
+		if (player.GetInventory().EnumerateInventory(1, items)) {
+			foreach (EntityAI item : items) {
+				int index = recipeStrings.Find(item.GetType());
+				
+				if (index != -1) { 
+					if (item.IsRuined()) {
 						ExpansionNotification("Barter", "One of the recipe items was ruined!").Error(player.GetIdentity());
-						continue; 
+						return false;
 					}
-					removableObjects.Insert(item);
-					return true;
+					removableObjects.Insert(item); 
+					recipeStrings.RemoveOrdered(index); 
 				}
 			}
 		}
-		return false;
+		return recipeStrings.Count() == 0; 
 	}
 	
 	EntityAI createEntity(string entityName) {
@@ -99,27 +98,22 @@ modded class MissionBase {
 	void RPCBuy(CallType type, ref ParamsReadContext ctx, ref PlayerIdentity sender, ref Object target) {
 		if (type == CallType.Server) {
 			Param3<PlayerBase, array<string>, string> data;
+			
 			if (!ctx.Read(data)) {
 				return;
 			}
 			
-
 			PlayerBase player = data.param1;
 			array<string> SrecipeEntities = data.param2;
 			string SfinalProduct = data.param3;
 			
-
 			if (player) {
 				
 				array<EntityAI> removableObjects = new array<EntityAI>;
 				
-				foreach (string itemRecipeString : SrecipeEntities) {
-					if (itemRecipeString) {
-						bool hasItem = IsItemOnPlayer(player, itemRecipeString, removableObjects);
-					}
-				}
-
-				if (removableObjects.Count() == SrecipeEntities.Count()) {
+				bool hasItem = IsItemOnPlayer(player, SrecipeEntities, removableObjects);
+				
+				if (hasItem) {
 					
 					foreach (EntityAI itemToDelete : removableObjects) {
 						GetGame().ObjectDelete(itemToDelete);
@@ -141,8 +135,6 @@ modded class MissionBase {
 						player.m_currentSkillLevel += 1;
 						GetRPCManager().SendRPC("BarterMod", "RPCUpdateLevelText", new Param1<int>(player.m_currentSkillLevel), true, sender);
 					}
-					
-					
 					
 					ExpansionNotification("Barter", "Successful barter").Success(player.GetIdentity());
 				} else {

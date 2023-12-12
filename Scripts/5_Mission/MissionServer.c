@@ -1,6 +1,6 @@
 modded class MissionServer
 {
-    ref NPCManager m_NPCManager; // Our NPC manager reference
+    ref NPCManager m_NPCManager; 
 	ref AIMissions aiMissions;
 	ref BartererList bartererList;
 
@@ -8,7 +8,6 @@ modded class MissionServer
     {
         super.OnInit();
         
-        // Initialize our NPC manager to spawn the NPC
         m_NPCManager = new NPCManager();
 		
 		Print("BARTER: MissionServer initialized!");
@@ -20,7 +19,19 @@ modded class MissionServer
 		
 		int randomMissionTime = Math.RandomInt(1200 * 1000, 6300 * 1000);
 		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(aiMissions.randomMission, randomMissionTime, false);
+		
+		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(restartNotification, 12600 * 1000, false, "Restart", "30 minutes until restart!", 4);
+		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(restartNotification, 13500 * 1000, false, "Restart", "15 minutes until restart!", 4);
+		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(restartNotification, 14100 * 1000, false, "Restart", "5 minutes until restart!", 4);
+		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(restartNotification, 14220 * 1000, false, "Restart", "3 minutes until restart!", 4);
+		
+		
     }
+	
+	void restartNotification(string title, string message, int duration) {
+		ExpansionNotification(title, message, EXPANSION_NOTIFICATION_ICON_INFO, COLOR_EXPANSION_NOTIFICATION_INFO, duration).Create();
+	}
+	
 	
 	void LoadBartererList() {
 		string filePath = BARTER_RECIPE_FOLDER + "recipeConfig.json";
@@ -49,10 +60,6 @@ modded class MissionServer
         GetRPCManager().SendRPC("BarterMod", "RPCReceiveBartererList", param, true, playerIdentity);
     }
 	
-	
-	
-	
-	
 	int ReadPlayerSkillLevel(string fileName) {
 		FileHandle file = OpenFile(fileName, FileMode.READ);
 		if (file != 0) {
@@ -72,19 +79,15 @@ modded class MissionServer
 		string steamID = player.GetIdentity().GetId();
 		string fileName = SKILLDATA_FOLDER + steamID + ".txt";
 
-		// Check if the file exists
 		if (FileExist(fileName)) {
-			// File exists, read the current skill level
 			int readSkillLevel = ReadPlayerSkillLevel(fileName);
 
 			if (readSkillLevel == 0) {
 				Print("BARTER: Reading the file in InitPlayerSkillLevel failed");
 			}
 
-			// Set the player's customSkillLevel based on the file data
 			player.m_currentSkillLevel = readSkillLevel;
 		} else {
-			// File doesn't exist, set the player's skill level to 0
 			player.m_currentSkillLevel = 0;
 		}
 	}

@@ -164,7 +164,7 @@ FrameWidgetClass ContainerWidget {
      hexactsize 1
      vexactsize 1
      "exact text" 1
-	 "exact text size" 10
+     "exact text size" 10
      text_proportion 0.1
      "text halign" center
     }
@@ -177,7 +177,7 @@ FrameWidgetClass ContainerWidget {
      hexactsize 1
      vexactsize 1
      "exact text" 1
-	 "exact text size" 10
+     "exact text size" 10
      text_proportion 0.1
      "text halign" center
     }
@@ -190,7 +190,7 @@ FrameWidgetClass ContainerWidget {
      hexactsize 1
      vexactsize 1
      "exact text" 1
-	 "exact text size" 10
+     "exact text size" 10
      text_proportion 0.1
      "text halign" center
     }
@@ -203,7 +203,7 @@ FrameWidgetClass ContainerWidget {
      hexactsize 1
      vexactsize 1
      "exact text" 1
-	 "exact text size" 10
+     "exact text size" 10
      text_proportion 0.1
      "text halign" center
     }
@@ -216,7 +216,7 @@ FrameWidgetClass ContainerWidget {
      hexactsize 1
      vexactsize 1
      "exact text" 1
-	 "exact text size" 10
+     "exact text size" 10
      text_proportion 0.1
      "text halign" center
     }
@@ -229,7 +229,7 @@ FrameWidgetClass ContainerWidget {
      hexactsize 1
      vexactsize 1
      "exact text" 1
-	 "exact text size" 10
+     "exact text size" 10
      text_proportion 0.1
      "text halign" center
     }
@@ -242,7 +242,7 @@ FrameWidgetClass ContainerWidget {
      hexactsize 1
      vexactsize 1
      "exact text" 1
-	 "exact text size" 10
+     "exact text size" 10
      text_proportion 0.1
      "text halign" center
     }
@@ -255,7 +255,7 @@ FrameWidgetClass ContainerWidget {
      hexactsize 1
      vexactsize 1
      "exact text" 1
-	 "exact text size" 10
+     "exact text size" 10
      text_proportion 0.1
      "text halign" center
     }
@@ -268,7 +268,7 @@ FrameWidgetClass ContainerWidget {
      hexactsize 1
      vexactsize 1
      "exact text" 1
-	 "exact text size" 10
+     "exact text size" 10
      text_proportion 0.1
      "text halign" center
     }
@@ -281,7 +281,7 @@ FrameWidgetClass ContainerWidget {
      hexactsize 1
      vexactsize 1
      "exact text" 1
-	 "exact text size" 10
+     "exact text size" 10
      text_proportion 0.1
      "text halign" center
     }
@@ -294,7 +294,7 @@ FrameWidgetClass ContainerWidget {
      hexactsize 1
      vexactsize 1
      "exact text" 1
-	 "exact text size" 10
+     "exact text size" 10
      text_proportion 0.1
      "text halign" center
     }
@@ -307,7 +307,7 @@ FrameWidgetClass ContainerWidget {
      hexactsize 1
      vexactsize 1
      "exact text" 1
-	 "exact text size" 10
+     "exact text size" 10
      text_proportion 0.1
      "text halign" center
     }
@@ -320,7 +320,7 @@ FrameWidgetClass ContainerWidget {
      hexactsize 1
      vexactsize 1
      "exact text" 1
-	 "exact text size" 10
+     "exact text size" 10
      text_proportion 0.1
      "text halign" center
     }
@@ -333,7 +333,7 @@ FrameWidgetClass ContainerWidget {
      hexactsize 1
      vexactsize 1
      "exact text" 1
-	 "exact text size" 10
+     "exact text size" 10
      text_proportion 0.1
      "text halign" center
     }
@@ -346,7 +346,7 @@ FrameWidgetClass ContainerWidget {
      hexactsize 1
      vexactsize 1
      "exact text" 1
-	 "exact text size" 10
+     "exact text size" 10
      text_proportion 0.1
      "text halign" center
     }
@@ -359,7 +359,7 @@ FrameWidgetClass ContainerWidget {
      hexactsize 1
      vexactsize 1
      "exact text" 1
-	 "exact text size" 10
+     "exact text size" 10
      text_proportion 0.1
      "text halign" center
     }
@@ -372,7 +372,7 @@ FrameWidgetClass ContainerWidget {
      hexactsize 1
      vexactsize 1
      "exact text" 1
-	 "exact text size" 10
+     "exact text size" 10
      text_proportion 0.1
      "text halign" center
     }
@@ -385,7 +385,7 @@ FrameWidgetClass ContainerWidget {
      hexactsize 1
      vexactsize 1
      "exact text" 1
-	 "exact text size" 10
+     "exact text size" 10
      text_proportion 0.1
      "text halign" center
     }
@@ -398,7 +398,7 @@ FrameWidgetClass ContainerWidget {
      hexactsize 1
      vexactsize 1
      "exact text" 1
-	 "exact text size" 10
+     "exact text size" 10
      text_proportion 0.1
      "text halign" center
     }
@@ -411,7 +411,7 @@ FrameWidgetClass ContainerWidget {
      hexactsize 1
      vexactsize 1
      "exact text" 1
-	 "exact text size" 10
+     "exact text size" 10
      text_proportion 0.1
      "text halign" center
     }
@@ -637,6 +637,14 @@ FrameWidgetClass ContainerWidget {
      "text halign" center
     }
    }
+  }
+  XComboBoxWidgetClass categoryWidget {
+   position 29.9896 142.23599
+   size 584.21704 40.3851
+   hexactpos 1
+   vexactpos 1
+   hexactsize 1
+   vexactsize 1
   }
  }
 }

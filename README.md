@@ -25,6 +25,9 @@ https://github.com/JesseNyberg/DayZ-BarteringSystem/assets/67522887/e82f4be6-c13
  
 - ### **Sleek UI**: 
   - #### Many mods have a dull looking UI due to the minimalistic Enfusion layout system. Not anymore!
+  
+- ### **Categories**: 
+  - #### The items are in categories and categories are barter specific.
 
  
 - ### **Configurable Barterables and NPC spawns**:
@@ -40,64 +43,6 @@ https://github.com/JesseNyberg/DayZ-BarteringSystem/assets/67522887/e82f4be6-c13
 
 
 ## Configuration
-  - ### The following folder is created when the mod is first started: DayzServer\profileFolder\BarterConfig
-    - #### The files NPCConfig.json and recipeConfig.json are created, but are empty by default. 
-
-  
-- #### NPC Clothing and spawnpoints example     
-```
-{
-  "barterNPCList": [
-    {
-      "name": "BanditNPC",
-      "npcModel": "SurvivorM_Boris",
-      "position": [9741.773438, 299.0, 8929.278320],
-      "orientation": [-70.466454, 0.118899, 0.051448],
-      "npcClothing": ["WinterCoif_Blue", "NioshFaceMask", "SportGlasses_Blue", "PaddedGlove_Brown", "Hoodie_Red", "Jeans_Black", "Sneakers_Gray"]
-    },
-    {
-      "name": "CovenantNPC",
-      "npcModel": "SurvivorM_Francis",
-      "position": [11588.751953, 57.920631, 14647.999023],
-      "orientation": [-34.746475, 0.0, 0.0],
-      "npcClothing": ["SFE_shemagh_OD", "BaseballCap_CMMG_Black", "BO_OakleyGlasses", "TacticalGloves_Black", "SFE_TacticalTop_Mcb", "SFE_TacticalPants_mcb", "MilitaryBoots_Redpunk", "SFE_WasVest_Black"]
-    }
-  ]
-}
-```
-
-- #### Barterables config example:  
-```
-{
-  "barterers": [
-    {
-      "npc": "SurvivorM_Boris",
-      "items": [
-        {
-          "finalProduct": "CJ_Materials_Circuit_Board",
-          "requiredItems": ["HDSN_Detonator", "AmmoBox_9x19_25Rnd"]
-        },
-        {
-          "finalProduct": "Truck_01_Door_2_1_Black",
-          "requiredItems": ["Truck_01_Door_2_1_BlueRust", "GorkaPants_Autumn", "GorkaEJacket_Autumn"]
-        }
-      ]
-    },
-    {
-      "npc": "SurvivorM_Elias",
-      "items": [
-        {
-          "finalProduct": "ExpansionCircuitBoard_MK2",
-          "requiredItems": ["CJ_Materials_Circuit_Board", "SmallProtectorCase"]
-        },
-        {
-          "finalProduct": "BO_GasMask",
-          "requiredItems": ["Collectable_SSD", "GasMask"]
-        }
-      ]
-    }
-  ]
-}
-```
+  - ### Configuration examples currently removed, because our server is currently using it.
 
 ---

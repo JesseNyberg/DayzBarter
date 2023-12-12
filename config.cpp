@@ -17,15 +17,7 @@ class CfgMods
 		dependencies[] = {"Game","World","Mission"};
 		class defs
 		{
-			// class engineScriptModule
-			// {
-				// files[] = {"0_DayZExpansion_Market_Preload/Common","0_DayZExpansion_Market_Preload/1_Core"};
-			// };
-			// class gameLibScriptModule
-			// {
-				// files[] = {"0_DayZExpansion_Market_Preload/Common","0_DayZExpansion_Market_Preload/2_GameLib"};
-			// };
-			 class gameScriptModule
+			class gameScriptModule
 			 {
 				 files[] = {"DayzBarter/Scripts/3_Game"};
 			 };
