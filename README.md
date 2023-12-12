@@ -11,7 +11,11 @@
 
 
 
-https://github.com/JesseNyberg/DayZ-BarteringSystem/assets/67522887/e82f4be6-c13c-43bf-aded-207781d2798e
+
+
+https://github.com/JesseNyberg/DayZ-BarteringSystem/assets/67522887/0468915c-4139-41c7-99f0-439be7c50f45
+
+
 
 
 
