@@ -13,7 +13,11 @@
 
 
 
-https://github.com/JesseNyberg/DayZ-BarteringSystem/assets/67522887/0468915c-4139-41c7-99f0-439be7c50f45
+
+
+https://github.com/JesseNyberg/DayZ-BarteringSystem/assets/67522887/a0d02d22-ba4a-4622-99ed-dc88f6f935ff
+
+
 
 
 
@@ -33,6 +37,8 @@ https://github.com/JesseNyberg/DayZ-BarteringSystem/assets/67522887/0468915c-413
 - ### **Categories**: 
   - #### The items are in categories and categories are barter specific.
 
+- ### **VIP status**: 
+  - #### Barterers can be restricted to only VIPS, the VIPS can be set in the config folder (config/VIPS)
  
 - ### **Configurable Barterables and NPC spawns**:
   - #### Configure where the barterers spawn and what clothing they have on them.
@@ -47,6 +53,71 @@ https://github.com/JesseNyberg/DayZ-BarteringSystem/assets/67522887/0468915c-413
 
 
 ## Configuration
-  - ### Configuration examples currently removed, because our server is currently using it.
+ - #### NPC Configuration example (BarterConfig\NPCConfig.json):
+  ```
+{
+   "barterNPCList":[
+      {
+         "id":1,
+         "npcModel":"SurvivorM_Cyril",
+         "barterRequirement":30,
+         "VIP":false,
+         "position":[
+            925.505066,
+            182.328217,
+            7625.565918
+         ],
+         "orientation":[
+            -10.271118,
+            0.0,
+            0.0
+         ],
+         "npcClothing":[
+            "BaseballCap_Camo",
+            "BO_MaskaFace_Black",
+            "TacticalGloves_Black",
+            "SFE_TacticalTop_rgr",
+            "SFE_WasVest_Olive",
+            "SFE_TacticalPants_MultiCam",
+            "MilitaryBoots_Beige"
+         ]
+      }
+   ]
+}
+  ```
+
+ - #### Recipe Configuration example (BarterConfig\recipeConfig.json):
+  ```
+{
+   "barterers":[
+      {
+         "npcID":6,
+         "items":[
+            {
+               "id":"5000",
+               "category":"Bandits",
+               "finalProducts":[
+                  {
+                     "itemName":"SGE_Bandits_Beginner_Jacket",
+                     "quantity":1
+                  }
+               ],
+               "requiredItems":[
+                  {
+                     "itemName":"SewingKit",
+                     "quantity":100
+                  },
+                  {
+                     "itemName":"M65Jacket_Black",
+                     "quantity":1
+                  }
+               ]
+            }
+         ]
+      }
+   ]
+}
+  ```
+  
 
 ---
