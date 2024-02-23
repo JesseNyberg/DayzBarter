@@ -60,7 +60,7 @@ https://github.com/JesseNyberg/DayZ-BarteringSystem/assets/67522887/a0d02d22-ba4
       {
          "id":1,
          "npcModel":"SurvivorM_Cyril",
-         "barterRequirement":30,
+         "barterRequirement":0,
          "VIP":false,
          "position":[
             925.505066,
