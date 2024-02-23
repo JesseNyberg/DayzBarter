@@ -98,7 +98,7 @@ https://github.com/JesseNyberg/DayZ-BarteringSystem/assets/67522887/a0d02d22-ba4
                "category":"Bandits",
                "finalProducts":[
                   {
-                     "itemName":"SGE_Bandits_Beginner_Jacket",
+                     "itemName":"TTsKO_Jacket_Camo",
                      "quantity":1
                   }
                ],
