@@ -4,8 +4,10 @@ class NPCList {
 }
 
 class BarterNPC {
-	string name;
+	int id;
 	string npcModel;
+	int barterRequirement;
+	bool VIP;
 	vector position;
 	vector orientation;
 	ref array<string> npcClothing;
@@ -15,20 +17,17 @@ class NPCManager
 {
 	ref NPCList npcList;
 	
-	
-	PlayerBase tempNpc;
-	vector tempPosition;
+	private PlayerBase tempNpc;
+	private vector tempPosition;
 
     void NPCManager()
     {
-        // Spawn NPC when the manager is created.
 		npcList = new NPCList;
 		LoadBarterConfig();
     }
 
     void ~NPCManager()
     {
-        // Destructor logic if needed
     }
 	
 	void CreateNPCClothing(PlayerBase npc, array<string> clothingStrings) {
@@ -54,7 +53,6 @@ class NPCManager
 
     void SpawnNPC()
     {
-        // Spawn NPC only on the server side.
         if (GetGame().IsServer())
         {
 			
@@ -64,6 +62,9 @@ class NPCManager
 				CreateNPCClothing(tempNpc, barterNpc.npcClothing);
 				tempNpc.setTraderStatus();
 				tempNpc.SetAllowDamage(false);
+				tempNpc.setTraderID(barterNpc.id);
+				tempNpc.setTraderVIP(barterNpc.VIP);
+				tempNpc.setBarterRequirement(barterNpc.barterRequirement);
 			}
 			
         }

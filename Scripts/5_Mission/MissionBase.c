@@ -5,35 +5,37 @@ modded class MissionBase {
 		GetRPCManager().AddRPC("BarterMod", "RPCBuy", this, SingleplayerExecutionType.Both);
 	}
 	
-	int ReadPlayerSkillLevel(string fileName) {
+	int ReadPlayerBarterLevel(string fileName) {
 		FileHandle file = OpenFile(fileName, FileMode.READ);
+		
 		if (file != 0) {
 			string currentLevel;
 			
 			if (FGets(file, currentLevel)) {
-				int skillLevel = currentLevel.ToInt();
+				int barterLevel = currentLevel.ToInt();
 				CloseFile(file);
-				return skillLevel;
+				return barterLevel;
 			}
 			CloseFile(file);
 		}
 		return 0; 
 	}
 
-	bool WritePlayerSkillLevel(string fileName, int skillLevel) {
+	bool WritePlayerBarterLevel(string fileName, int barterLevel) {
 		PlayerBase player = PlayerBase.Cast(GetGame().GetPlayer());
 		FileHandle file = OpenFile(fileName, FileMode.WRITE);
+		
 		if (file != 0) {
-			FPrint(file, skillLevel);
+			FPrint(file, barterLevel);
 			CloseFile(file);
 			return true;
 		}
 		return false;
 	}
 	
-	bool ManagePlayerSkillLevel(string steamID, int skillIncrement) {
+	bool ManagePlayerBarterLevel(string steamID, int skillIncrement) {
 		
-		string fileFolder = SKILLDATA_FOLDER;
+		string fileFolder = BARTER_LEVEL_FOLDER;
 		
 		if (!FileExist(fileFolder)) {
 			if (!MakeDirectory(fileFolder)) {
@@ -45,23 +47,23 @@ modded class MissionBase {
 		string fileName = fileFolder + steamID + ".txt";
 
 		if (FileExist(fileName)) {
-			int currentSkillLevel = ReadPlayerSkillLevel(fileName);
+			int barterLevel = ReadPlayerBarterLevel(fileName);
 			
-			if (currentSkillLevel == 0) {
+			if (barterLevel == 0) {
 				Print("BARTER: The reading of the skill file FAILED");
 				return false;
 			}
 
-			currentSkillLevel += skillIncrement;
+			barterLevel += skillIncrement;
 
-			if (WritePlayerSkillLevel(fileName, currentSkillLevel)) {
+			if (WritePlayerBarterLevel(fileName, barterLevel)) {
 				return true;
 			} else {
 				Print("BARTER: Failed to update skill level for " + steamID);
 				return false;
 			}
 		} else {
-			if (WritePlayerSkillLevel(fileName, 1)) {
+			if (WritePlayerBarterLevel(fileName, 1)) {
 				return true;
 			} else {
 				Print("BARTER: Failed to create skill level file for " + steamID);
@@ -70,25 +72,87 @@ modded class MissionBase {
 		}
 	}
 	
-	bool IsItemOnPlayer(PlayerBase player, array<string> recipeStrings, out array<EntityAI> removableObjects) {
-		array<EntityAI> items = new array<EntityAI>;
-		
-		if (player.GetInventory().EnumerateInventory(1, items)) {
-			foreach (EntityAI item : items) {
-				int index = recipeStrings.Find(item.GetType());
+	int FindRequiredItemIndex(ItemBase item, ref array<ref RequiredItem> requiredItems) {
+		for (int i = 0; i < requiredItems.Count(); i++) {
+			if (requiredItems[i].itemName == item.GetType()) {
+				return i;
+			}
+		}
+		return -1; 
+	}
+	
+	bool IsItemOnPlayer(PlayerBase player, BarterItem barterItem) {
+		array<EntityAI> itemsArray = new array<EntityAI>;
+		map<string, float> itemQuantities = new map<string, float>;
+
+		if (player.GetInventory().EnumerateInventory(1, itemsArray)) {
+			foreach (EntityAI itemEntity : itemsArray) {
+				ItemBase item;
 				
-				if (index != -1) { 
-					if (item.IsRuined()) {
-						ExpansionNotification("Barter", "One of the recipe items was ruined!").Error(player.GetIdentity());
-						return false;
+				if (ItemBase.CastTo(item, itemEntity)) {
+
+					string itemType = item.GetType();
+					if (item.HasQuantity()) {
+						float currentQuantity = item.GetQuantity();
+						if (itemQuantities.Contains(itemType)) {
+							itemQuantities[itemType] = itemQuantities[itemType] + currentQuantity;
+						} else {
+							itemQuantities[itemType] = currentQuantity;
+						}
+					} else {
+						if (itemQuantities.Contains(itemType)) {
+							itemQuantities[itemType] = itemQuantities[itemType] + 1;
+						} else {
+							itemQuantities[itemType] = 1;
+						}
 					}
-					removableObjects.Insert(item); 
-					recipeStrings.RemoveOrdered(index); 
 				}
 			}
 		}
-		return recipeStrings.Count() == 0; 
+
+		foreach (RequiredItem requiredItem : barterItem.requiredItems) {
+			if (!itemQuantities.Contains(requiredItem.itemName) || itemQuantities[requiredItem.itemName] < requiredItem.quantity) {
+				return false;
+			}
+		}
+
+		foreach (RequiredItem rqrItem : barterItem.requiredItems) {
+			float quantityToRemove = rqrItem.quantity;
+			bool ruinedItem = false;
+			
+			foreach (EntityAI entityItem : itemsArray) {
+				ItemBase itemBase;
+				if (ItemBase.CastTo(itemBase, entityItem) && itemBase.GetType() == rqrItem.itemName) {
+					if (itemBase.IsRuined()) {
+						ruinedItem = true;
+						ExpansionNotification("Barter", "One of the recipe items was ruined!").Error(player.GetIdentity());
+						break;
+					}
+					
+					if (itemBase.HasQuantity()) {
+						float itemQuantity = itemBase.GetQuantity();
+						if (itemQuantity >= quantityToRemove) {
+							itemBase.SetQuantity(itemQuantity - quantityToRemove);
+							break;
+						} else {
+							quantityToRemove -= itemQuantity;
+							GetGame().ObjectDelete(itemBase);
+						}
+					} else if (quantityToRemove > 0) {
+						GetGame().ObjectDelete(itemBase);
+						quantityToRemove--;
+					}
+				}
+			}
+		}
+		
+		if (ruinedItem)
+			return false;
+
+		return true;
 	}
+
+
 	
 	EntityAI createEntity(string entityName) {
 		EntityAI entity = EntityAI.Cast(GetGame().CreateObject(entityName, "0 0 0", true, false, true));
@@ -97,43 +161,48 @@ modded class MissionBase {
 	
 	void RPCBuy(CallType type, ref ParamsReadContext ctx, ref PlayerIdentity sender, ref Object target) {
 		if (type == CallType.Server) {
-			Param3<PlayerBase, array<string>, string> data;
+			Param2<PlayerBase, ref BarterItem> data;
 			
 			if (!ctx.Read(data)) {
 				return;
 			}
 			
 			PlayerBase player = data.param1;
-			array<string> SrecipeEntities = data.param2;
-			string SfinalProduct = data.param3;
+			BarterItem barterItem = data.param2;
 			
-			if (player) {
-				
-				array<EntityAI> removableObjects = new array<EntityAI>;
-				
-				bool hasItem = IsItemOnPlayer(player, SrecipeEntities, removableObjects);
+			if (player && barterItem) {
+				bool hasItem = IsItemOnPlayer(player, barterItem);
 				
 				if (hasItem) {
 					
-					foreach (EntityAI itemToDelete : removableObjects) {
-						GetGame().ObjectDelete(itemToDelete);
+					
+					foreach (FinalItem finalItem : barterItem.finalProducts) {
+						EntityAI finalEntity = createEntity(finalItem.itemName);
+						
+						bool inventoryNotFull = player.GetInventory().CanAddEntityToInventory(finalEntity);
+						
+						if (inventoryNotFull) {
+							ItemBase finalBase;
+							if (Class.CastTo(finalBase, finalEntity));
+
+							if (finalBase.HasQuantity()) {
+								finalBase = player.GetInventory().CreateInInventory(finalItem.itemName);
+								finalBase.SetQuantity(finalItem.quantity);
+							} else {
+								for (int i = 0; i < finalItem.quantity; i++) {
+									player.GetInventory().CreateInInventory(finalItem.itemName);
+								}
+							}							
+						} else {
+							player.SpawnEntityOnGroundPos(finalItem.itemName, player.GetPosition());
+						}
 					}
-					
-					EntityAI finalProduct = createEntity(SfinalProduct);
-					bool inventoryNotFull = player.GetInventory().CanAddEntityToInventory(finalProduct);
-					
-					if (inventoryNotFull) {
-						EntityAI finalProductEntity = player.GetInventory().CreateInInventory(SfinalProduct);
-					} else {
-						player.SpawnEntityOnGroundPos(SfinalProduct, player.GetPosition());
-					}
-					
-					string steamID = player.GetIdentity().GetId();
+					string steamID = player.GetIdentity().GetPlainId();
 					int skillIncrement = 1;
 					
-					if (ManagePlayerSkillLevel(steamID, skillIncrement)) {
-						player.m_currentSkillLevel += 1;
-						GetRPCManager().SendRPC("BarterMod", "RPCUpdateLevelText", new Param1<int>(player.m_currentSkillLevel), true, sender);
+					if (ManagePlayerBarterLevel(steamID, skillIncrement)) {
+						player.setBarterLevel(player.getBarterLevel() + skillIncrement);
+						GetRPCManager().SendRPC("BarterMod", "RPCUpdateLevelText", new Param1<int>(player.getBarterLevel()), true, sender);
 					}
 					
 					ExpansionNotification("Barter", "Successful barter").Success(player.GetIdentity());

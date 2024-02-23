@@ -3,8 +3,14 @@ class BarterUI : UIScriptedMenu
 	private Widget rootLayout;
 	private GridSpacerWidget barterGridSpacer;
 	private GridSpacerWidget recipeGridSpacer;
+	private GridSpacerWidget finalProductGridSpacer;
+	
+	private GridSpacerWidget finalTextGridSpacer;
 	private GridSpacerWidget textGridSpacer;
 	private GridSpacerWidget previewTextGridSpacer;
+	
+	private GridSpacerWidget finalQuantityGridSpacer;
+	private GridSpacerWidget previewQuantityGridSpacer;
 	
 	private ButtonWidget m_escapeButton;
 	private ButtonWidget m_buyButton;
@@ -12,16 +18,16 @@ class BarterUI : UIScriptedMenu
 	
 	private ItemPreviewWidget m_recipePreview1;
 	private ItemPreviewWidget m_recipePreview2;
-	private ItemPreviewWidget m_tradablePreview;
 	private ItemPreviewWidget m_itemPreviewWidget;
 	private ItemPreviewWidget m_recipePreviewWidget;
+	private ItemPreviewWidget m_finalProductWidget;
 	
 	private TextWidget m_selectedName;
 	private TextWidget m_textPlus;
-	private TextWidget m_textEqual;
 	private TextWidget m_barterLevelText;
 	private TextWidget m_buyText;
 	private TextWidget m_textWidget;
+	private TextWidget m_arrowText;
 	
 	private XComboBoxWidget m_categoryWidget;
 	
@@ -33,34 +39,26 @@ class BarterUI : UIScriptedMenu
 	
 	private ref array<ButtonWidget> m_checkedButtons;
 	
-	private ref map<string, ref array<EntityAI>> m_entityMap;
 	private ref array<string> m_uniqueCategories;
-	private ref array<string> m_recipeStrings;
+
 	
 	private ref array<ItemPreviewWidget> m_itemPreviews;
 	private ref array<ItemPreviewWidget> m_recipePreviews;
-	
-	private ref array<EntityAI> m_recipeEntities;
-	private ref array<EntityAI> m_itemEntities;
+	private ref array<ItemPreviewWidget> m_finalPreviews;
 	
 	private ref BartererList bartererList;
+	private ref BarterItem selectedBarterItem;
 	private ref array<ref BarterItem> m_barterItems;
 	
 	private int MAX_RECIPE_ITEMS = 16;
 	
 	void BarterUI()
 	{
-		
 		m_checkedButtons = new array<ButtonWidget>;
-
-		m_itemEntities = new array<EntityAI>;
-		m_recipeEntities = new array<EntityAI>;
-		m_entityMap = new map<string, ref array<EntityAI>>;
 		
 		m_itemPreviews = new array<ItemPreviewWidget>;
 		m_recipePreviews = new array<ItemPreviewWidget>;
-		
-		m_recipeStrings = new array<string>;
+		m_finalPreviews = new array<ItemPreviewWidget>;
 		
 		m_barterItems = new array<ref BarterItem>;
 		
@@ -89,8 +87,8 @@ class BarterUI : UIScriptedMenu
             Param1<int> data;
             if (!ctx.Read(data)) return;
 
-            int newSkillLevel = data.param1;
-            m_barterLevelText.SetText("Barter level: " + newSkillLevel.ToString());
+            int newBarterLevel = data.param1;
+            m_barterLevelText.SetText("Barter level: " + newBarterLevel.ToString());
         }
     }
 	
@@ -99,7 +97,7 @@ class BarterUI : UIScriptedMenu
 		m_categoryWidget.ClearAll();
 
 		foreach (Barterer barterer : bartererList.barterers) {
-			if (barterer.npc == TARGETED_TRADER_NPC) {
+			if (barterer.npcID == TARGETED_TRADER_NPC) {
 				foreach (BarterItem barterItem : barterer.items) {
 					if (m_uniqueCategories.Find(barterItem.category) == -1) {
 						m_uniqueCategories.Insert(barterItem.category);
@@ -122,19 +120,24 @@ class BarterUI : UIScriptedMenu
 			if (rootLayout)
 			{
 				barterGridSpacer = GridSpacerWidget.Cast(rootLayout.FindAnyWidget("GridSpacerPreviews"));
-				textGridSpacer = GridSpacerWidget.Cast(rootLayout.FindAnyWidget("GridSpacerText"));
 				recipeGridSpacer = GridSpacerWidget.Cast(rootLayout.FindAnyWidget("GridSpacerRecipes"));
+				finalProductGridSpacer = GridSpacerWidget.Cast(rootLayout.FindAnyWidget("GridSpacerFinalProduct"));
+				
+				textGridSpacer = GridSpacerWidget.Cast(rootLayout.FindAnyWidget("GridSpacerText"));
 				previewTextGridSpacer = GridSpacerWidget.Cast(rootLayout.FindAnyWidget("GridSpacerPreviewText"));
+				finalTextGridSpacer = GridSpacerWidget.Cast(rootLayout.FindAnyWidget("GridSpacerFinalText"));
+				
+				previewQuantityGridSpacer = GridSpacerWidget.Cast(rootLayout.FindAnyWidget("GridSpacerPreviewQuantity"));
+				finalQuantityGridSpacer = GridSpacerWidget.Cast(rootLayout.FindAnyWidget("GridSpacerFinalQuantity"));
+				
 				
 				m_escapeButton = ButtonWidget.Cast(rootLayout.FindAnyWidget("escapeButton"));
 				m_buyButton = ButtonWidget.Cast(rootLayout.FindAnyWidget("buyButton"));
 				
-				m_tradablePreview = ItemPreviewWidget.Cast(rootLayout.FindAnyWidget("tradablePreview"));
-				
 				m_selectedName = TextWidget.Cast(rootLayout.FindAnyWidget("selectedName"));
 				m_buyText = TextWidget.Cast(rootLayout.FindAnyWidget("buyText"));
-				m_textEqual = TextWidget.Cast(rootLayout.FindAnyWidget("textEqual"));
 				m_barterLevelText = TextWidget.Cast(rootLayout.FindAnyWidget("barterLevelText"));
+				m_arrowText = TextWidget.Cast(rootLayout.FindAnyWidget("arrowText"));
 				
 				m_categoryWidget = XComboBoxWidget.Cast(rootLayout.FindAnyWidget("categoryWidget"));
 				
@@ -142,6 +145,7 @@ class BarterUI : UIScriptedMenu
 				m_backgroundImage.LoadImageFile(0, "DayzBarter/barterbackground.edds");
 				m_backgroundImage.SetImage(0);
 				
+
 				player = PlayerBase.Cast(GetGame().GetPlayer());
 				
 
@@ -156,7 +160,6 @@ class BarterUI : UIScriptedMenu
 	override void OnShow()
 	{
 		super.OnShow();
-		//PPEffects.SetBlurMenu(0.5);
 		GetGame().GetInput().ChangeGameFocus(1);
 		GetGame().GetUIManager().ShowCursor(true);
 		GetGame().GetMission().PlayerControlEnable(false);
@@ -164,7 +167,7 @@ class BarterUI : UIScriptedMenu
 		
 		setBarterLevelText();
 		
-		player.m_barterMenuOpen = true;
+		player.setBarterMenuOpen(true);
 		
 		if (rootLayout) {
 			SetFocus(rootLayout);
@@ -174,21 +177,20 @@ class BarterUI : UIScriptedMenu
 	override void OnHide()
 	{
 		super.OnHide();
-		//PPEffects.SetBlurMenu(0);
 		
 		GetGame().GetUIManager().ShowCursor(false);
 		GetGame().GetInput().ResetGameFocus();
 		GetGame().GetMission().PlayerControlEnable(true);
 		GetGame().GetMission().GetHud().Show(true);
 		
-		player.m_barterMenuOpen = false;
+		player.setBarterMenuOpen(false);
 		
 		if (rootLayout)
 			rootLayout.Unlink();
 	}
 	
 	void setBarterLevelText() {
-		m_barterLevelText.SetText("Barter level: " + player.m_currentSkillLevel.ToString());
+		m_barterLevelText.SetText("Barter level: " + player.getBarterLevel().ToString());
 	}
 	
 	ButtonWidget GetButtonWidget( string name ) 
@@ -210,8 +212,8 @@ class BarterUI : UIScriptedMenu
 	
 	void showTradePreviews(bool showBoolean) {
 		recipeGridSpacer.Show(showBoolean);
-		m_tradablePreview.Show(showBoolean);
-		m_textEqual.Show(showBoolean);
+		finalProductGridSpacer.Show(showBoolean);
+		
 		m_buyButton.Show(showBoolean);
 		m_buyText.Show(showBoolean);
 	}
@@ -233,12 +235,6 @@ class BarterUI : UIScriptedMenu
 		}
 	}
 	
-	void clearPreviousRecipes() {
-		m_recipeStrings.Clear();
-		ClearGridSpacer(recipeGridSpacer);
-		ClearGridSpacer(previewTextGridSpacer);
-	}
-	
 	void clearPreviousRecipeTexts(string textWidgets) {
 		for (int i = 0; i < MAX_RECIPE_ITEMS; i++) { 
 			TextWidget textWidget = TextWidget.Cast(rootLayout.FindAnyWidget(textWidgets + i.ToString()));
@@ -249,24 +245,53 @@ class BarterUI : UIScriptedMenu
 	}
 	
 	void setPreviewItems(string id) {
-		clearPreviousRecipes();
+		ClearGridSpacer(recipeGridSpacer);
+		ClearGridSpacer(finalProductGridSpacer);
+		
 		clearPreviousRecipeTexts("textRecipePreview");
-
+		clearPreviousRecipeTexts("textRecipeQuantity");
+		clearPreviousRecipeTexts("textFinalText");
+		clearPreviousRecipeTexts("textFinalQuantity");
+		
 		foreach (BarterItem barterItem : m_barterItems) {
 			if (barterItem.id == id) {
-				EntityAI finalProduct = createEntity(barterItem.finalProduct);
-				m_tradablePreview.SetItem(finalProduct);
-
+				selectedBarterItem = barterItem;
+				
 				int i = 0;
-				foreach (string requiredItemString : barterItem.requiredItems) {
-					EntityAI recipeEntity = createEntity(requiredItemString);
+				
+				foreach (FinalItem finalItem : selectedBarterItem.finalProducts) {
+					EntityAI finalEntity = createEntity(finalItem.itemName);
+					
+					if (finalEntity) {
+						m_finalProductWidget = createItemPreview(finalProductGridSpacer);
+						m_finalProductWidget.SetItem(finalEntity);
+						
+						m_textWidget = TextWidget.Cast(rootLayout.FindAnyWidget("textFinalText" + i.ToString()));
+						m_textWidget.SetText(finalEntity.GetDisplayName());
+						
+						m_textWidget = TextWidget.Cast(rootLayout.FindAnyWidget("textFinalQuantity" + i.ToString()));
+						if (finalItem.quantity > 1) m_textWidget.SetText(finalItem.quantity.ToString());
+						
+						i++;
+					}
+				}
+				
+				int j = 0;
+				
+				foreach (RequiredItem requiredItem : selectedBarterItem.requiredItems) {
+					EntityAI recipeEntity = createEntity(requiredItem.itemName);
+					
 					if (recipeEntity) {
 						m_recipePreviewWidget = createItemPreview(recipeGridSpacer);
 						m_recipePreviewWidget.SetItem(recipeEntity);
-						m_recipeStrings.Insert(recipeEntity.GetType());
-						m_textWidget = TextWidget.Cast(rootLayout.FindAnyWidget("textRecipePreview" + i.ToString()));
+						
+						m_textWidget = TextWidget.Cast(rootLayout.FindAnyWidget("textRecipePreview" + j.ToString()));
 						m_textWidget.SetText(recipeEntity.GetDisplayName());
-						i++;
+						
+						m_textWidget = TextWidget.Cast(rootLayout.FindAnyWidget("textRecipeQuantity" + j.ToString()));
+						if (requiredItem.quantity > 1) m_textWidget.SetText(requiredItem.quantity.ToString());
+						
+						j++;
 					}
 				}
 				showTradePreviews(true);
@@ -315,23 +340,28 @@ class BarterUI : UIScriptedMenu
 		}
 		
 		if (w.IsInherited(ButtonWidget) && w.GetName() == "buyButton") {
-			EntityAI finalProduct = m_tradablePreview.GetItem();
 			
-            if (player && isItemSelected) {
-                GetRPCManager().SendRPC("BarterMod", "RPCBuy", new Param3<PlayerBase, array<string>, string>(player, m_recipeStrings, finalProduct.GetType()));
+            if (player && isItemSelected && selectedBarterItem != null) {
+                GetRPCManager().SendRPC("BarterMod", "RPCBuy", new Param2<PlayerBase, BarterItem>(player, selectedBarterItem));
             } else {
 				ExpansionNotification("Barter", "You have to select an item first!").Error(player.GetIdentity());
 			}
 		}
 		
 		if (w == m_categoryWidget) {
-			clearPreviousRecipes();
+			ClearGridSpacer(recipeGridSpacer);
+			ClearGridSpacer(barterGridSpacer);
+			ClearGridSpacer(finalProductGridSpacer);
+			
+
 			clearPreviousRecipeTexts("textRecipe");
 			clearPreviousRecipeTexts("textRecipePreview");
-			ClearGridSpacer(recipeGridSpacer);
+			clearPreviousRecipeTexts("textRecipeQuantity");
+			
+			clearPreviousRecipeTexts("textFinalText");
+			clearPreviousRecipeTexts("textFinalQuantity");
 			
 			m_selectedName.SetText(""); 
-			m_tradablePreview.SetItem(NULL);
 			
 			isItemSelected = false;
 			populateEntities();
@@ -342,7 +372,6 @@ class BarterUI : UIScriptedMenu
 	}
 	
 	void populateEntities() {
-		// m_entityMap.Clear();
 		m_barterItems.Clear();
 		
 		if (!bartererList) {
@@ -353,8 +382,10 @@ class BarterUI : UIScriptedMenu
 		int currentCategoryIndex = m_categoryWidget.GetCurrentItem();
 		string currentCategory = m_uniqueCategories.Get(currentCategoryIndex);
 		
+		Print("BARTER: NPC TARGETED " + TARGETED_TRADER_NPC);
+		
 		foreach (Barterer barterer : bartererList.barterers) {
-			if (barterer.npc == TARGETED_TRADER_NPC) {
+			if (barterer.npcID == TARGETED_TRADER_NPC) {
 				foreach (BarterItem barterItem : barterer.items) {
 					if (currentCategory == barterItem.category) {
 						m_barterItems.Insert(barterItem); 
@@ -376,13 +407,6 @@ class BarterUI : UIScriptedMenu
 		return button;
 	}
 	
-	RichTextWidget createText(Widget parent) {
-		RichTextWidget text = RichTextWidget.Cast(GetGame().GetWorkspace().CreateWidget(RichTextWidgetTypeID, 0, 0, 1, 1, WidgetFlags.VISIBLE | WidgetFlags.IGNOREPOINTER, ARGB(255, 255, 255, 255), 0, parent));
-		return text;
-	}
-	
-	
-	
 	void PopulateItems()
 	{
 		if (!GetGame().IsClient() && GetGame().IsMultiplayer())
@@ -395,7 +419,8 @@ class BarterUI : UIScriptedMenu
 		
 		foreach (BarterItem barterItem : m_barterItems)
 		{
-			EntityAI finalProduct = createEntity(barterItem.finalProduct);
+			string finalProductString = barterItem.finalProducts.Get(0).itemName;
+			EntityAI finalProduct = createEntity(finalProductString);
 			
 			if (finalProduct) {
 				m_itemPreviewWidget = createItemPreview(barterGridSpacer);
@@ -414,7 +439,7 @@ class BarterUI : UIScriptedMenu
 				
 				i++;
 			} else {
-				Print("BARTER: Failed to create entity for " + barterItem.finalProduct);
+				Print("BARTER: Failed to create entity for " + finalProductString);
 			}
 		}
 	}

@@ -1,7 +1,6 @@
 modded class MissionServer
 {
     ref NPCManager m_NPCManager; 
-	ref AIMissions aiMissions;
 	ref BartererList bartererList;
 
     override void OnInit()
@@ -12,27 +11,12 @@ modded class MissionServer
 		
 		Print("BARTER: MissionServer initialized!");
 		
-		aiMissions = new AIMissions();
 		bartererList = new BartererList();
 		GetRPCManager().AddRPC("BarterMod", "RespondBartererList", this, SingeplayerExecutionType.Server);
 		LoadBartererList();
-		
-		int randomMissionTime = Math.RandomInt(1200 * 1000, 6300 * 1000);
-		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(aiMissions.randomMission, randomMissionTime, false);
-		
-		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(restartNotification, 12600 * 1000, false, "Restart", "30 minutes until restart!", 4);
-		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(restartNotification, 13500 * 1000, false, "Restart", "15 minutes until restart!", 4);
-		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(restartNotification, 14100 * 1000, false, "Restart", "5 minutes until restart!", 4);
-		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(restartNotification, 14220 * 1000, false, "Restart", "3 minutes until restart!", 4);
-		
-		
+				
     }
-	
-	void restartNotification(string title, string message, int duration) {
-		ExpansionNotification(title, message, EXPANSION_NOTIFICATION_ICON_INFO, COLOR_EXPANSION_NOTIFICATION_INFO, duration).Create();
-	}
-	
-	
+		
 	void LoadBartererList() {
 		string filePath = BARTER_RECIPE_FOLDER + "recipeConfig.json";
 		
@@ -60,41 +44,77 @@ modded class MissionServer
         GetRPCManager().SendRPC("BarterMod", "RPCReceiveBartererList", param, true, playerIdentity);
     }
 	
-	int ReadPlayerSkillLevel(string fileName) {
+	bool ReadPlayerVIP(PlayerBase player) {
+		string steamID = player.GetIdentity().GetPlainId();
+		string filePath = VIP_CONFIG_FOLDER + steamID + ".txt";
+		FileHandle file;
+		
+		if (FileExist(filePath)) {
+			file = OpenFile(filePath, FileMode.READ);
+			
+			if (file != 0) {
+				string VIPStatusString;
+				
+				if (FGets(file, VIPStatusString)) {
+					 bool isVIP = VIPStatusString == "true";
+					 player.setPlayerVIP(isVIP);
+					
+					CloseFile(file);
+					return true;
+				}
+				CloseFile(file);
+			}
+			
+		} else {
+			MakeDirectory(VIP_CONFIG_FOLDER);
+			file = OpenFile(filePath, FileMode.WRITE);
+			
+			if (file != 0)
+			{
+				FPrint(file, "false");
+				CloseFile(file);
+				return true;
+			}
+		}
+		return false; 
+	}
+	
+	int ReadPlayerBarterLevel(string fileName) {
 		FileHandle file = OpenFile(fileName, FileMode.READ);
 		if (file != 0) {
 			string currentLevel;
 			
 			if (FGets(file, currentLevel)) {
-				int skillLevel = currentLevel.ToInt();
+				int barterLevel = currentLevel.ToInt();
 				CloseFile(file);
-				return skillLevel;
+				return barterLevel;
 			}
 			CloseFile(file);
 		}
 		return 0; 
 	}
 	
-	void InitPlayerSkillLevel(PlayerBase player) {
-		string steamID = player.GetIdentity().GetId();
-		string fileName = SKILLDATA_FOLDER + steamID + ".txt";
+	void InitPlayerBarterLevel(PlayerBase player) {
+		string steamID = player.GetIdentity().GetPlainId();
+		string fileName = BARTER_LEVEL_FOLDER + steamID + ".txt";
 
 		if (FileExist(fileName)) {
-			int readSkillLevel = ReadPlayerSkillLevel(fileName);
+			int readBarterLevel = ReadPlayerBarterLevel(fileName);
 
-			if (readSkillLevel == 0) {
-				Print("BARTER: Reading the file in InitPlayerSkillLevel failed");
+			if (readBarterLevel == 0) {
+				Print("BARTER: Reading the file in InitPlayerBarterLevel failed");
 			}
 
-			player.m_currentSkillLevel = readSkillLevel;
+			player.setBarterLevel(readBarterLevel);
 		} else {
-			player.m_currentSkillLevel = 0;
+			player.setBarterLevel(0);
 		}
 	}
 	
 	override void InvokeOnConnect(PlayerBase player, PlayerIdentity identity) {
         super.InvokeOnConnect(player, identity);
-		InitPlayerSkillLevel(player);
+		InitPlayerBarterLevel(player);
+		ReadPlayerVIP(player);
 	}
 }
 

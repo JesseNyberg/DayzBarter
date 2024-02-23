@@ -1,4 +1,4 @@
 class Barterer {
-    string npc;
+    int npcID;
     ref array<ref BarterItem> items;
 }

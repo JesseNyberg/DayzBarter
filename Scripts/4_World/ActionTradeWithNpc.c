@@ -4,7 +4,6 @@ class ActionTradeWithNPC : ActionInteractBase
     void ActionTradeWithNPC()
     {
         m_CommandUID = DayZPlayerConstants.CMD_ACTIONMOD_ATTACHITEM;
-		//Print("BARTER: ActionTradeWithNPC constructor called!");
     }
 	
 	override void CreateConditionComponents()  
@@ -13,22 +12,18 @@ class ActionTradeWithNPC : ActionInteractBase
 		m_ConditionTarget = new CCTCursor;
 	}
 
-
     override bool ActionCondition(PlayerBase player, ActionTarget target, ItemBase item)
     {
+		
         PlayerBase targetNPC = PlayerBase.Cast(target.GetObject());
         float maxInteractionDistance = 2.5; 
 		
-		//Print("BARTER: Action condition is being checked");
-		
-		
         if (targetNPC && targetNPC.isTrader() && vector.Distance(player.GetPosition(), targetNPC.GetPosition()) <= maxInteractionDistance)
         {
-			TARGETED_TRADER_NPC = targetNPC.GetType();
-						
+			TARGETED_TRADER_NPC = targetNPC.getTraderID();
             return true;
         } else {
-			//Print("BARTER: ActionCondition checked but conditions not met.");
+			
 		}
         return false;
     }
@@ -38,8 +33,6 @@ class ActionTradeWithNPC : ActionInteractBase
         return "Barter";
     }
 	
-	
-
 	override void OnStartClient(ActionData action_data)
 	{
 		Print("BARTER: On start client called");
@@ -47,27 +40,20 @@ class ActionTradeWithNPC : ActionInteractBase
 		
 		PlayerBase player = PlayerBase.Cast(action_data.m_Player);
 		PlayerBase targetNPC = PlayerBase.Cast(action_data.m_Target.GetObject());
-
 		
 		if (!GetGame().IsServer() && targetNPC)
 		{
-/* 			if (targetNPC.GetType() == "SurvivorM_Elias")
-			{
-				if (player.m_currentSkillLevel >= 8)
-				{
-					GetGame().GetUIManager().EnterScriptedMenu(BARTER_UI, null);
-				}
-				else
-				{
-					player.MessageImportant("You do not have enough barter level to barter with this person");
+			if (targetNPC.getTraderVIP()) {
+				if (!player.getPlayerVIP()) {
+					ExpansionNotification("Barter", "You need to be a VIP to barter with this person.").Error(player.GetIdentity());
 					return;
 				}
 			}
-			else
-			{
+				
+			if (player.getBarterLevel() >= targetNPC.getBarterRequirement())
 				GetGame().GetUIManager().EnterScriptedMenu(BARTER_UI, null);
-			} */
-			GetGame().GetUIManager().EnterScriptedMenu(BARTER_UI, null);
+			else
+				ExpansionNotification("Barter", "You need to have a barter skill level of " + targetNPC.getBarterRequirement() + " to barter with this person.").Error(player.GetIdentity());
 		}
 	}
 }

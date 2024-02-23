@@ -10,11 +10,11 @@ modded class MissionGameplay
 		{	
             PlayerBase player = PlayerBase.Cast(GetGame().GetPlayer());
 			
-            if (player && player.m_barterMenuOpen)
+            if (player && player.getBarterMenuOpen())
             {
 				GetGame().GetUIManager().CloseMenu(BARTER_UI);
 				
-				player.m_barterMenuOpen = false;
+				player.setBarterMenuOpen(false);
 
                 UnlockControls();
             }
