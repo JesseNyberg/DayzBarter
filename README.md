@@ -56,66 +56,66 @@ https://github.com/JesseNyberg/DayZ-BarteringSystem/assets/67522887/a0d02d22-ba4
  - #### NPC Configuration example (BarterConfig\NPCConfig.json):
   ```
 {
-   "barterNPCList":[
-      {
-         "id":1,
-         "npcModel":"SurvivorM_Cyril",
-         "barterRequirement":0,
-         "VIP":false,
-         "position":[
-            925.505066,
-            182.328217,
-            7625.565918
-         ],
-         "orientation":[
-            -10.271118,
-            0.0,
-            0.0
-         ],
-         "npcClothing":[
-            "BaseballCap_Camo",
-            "BO_MaskaFace_Black",
-            "TacticalGloves_Black",
-            "SFE_TacticalTop_rgr",
-            "SFE_WasVest_Olive",
-            "SFE_TacticalPants_MultiCam",
-            "MilitaryBoots_Beige"
-         ]
-      }
-   ]
+ "barterNPCList":[
+    {
+       "id":1,
+       "npcModel":"SurvivorM_Cyril",
+       "barterRequirement":0,
+       "VIP":false,
+       "position":[
+          925.505066,
+          182.328217,
+          7625.565918
+       ],
+       "orientation":[
+          -10.271118,
+          0.0,
+          0.0
+       ],
+       "npcClothing":[
+          "BaseballCap_Camo",
+          "BO_MaskaFace_Black",
+          "TacticalGloves_Black",
+          "SFE_TacticalTop_rgr",
+          "SFE_WasVest_Olive",
+          "SFE_TacticalPants_MultiCam",
+          "MilitaryBoots_Beige"
+       ]
+    }
+ ]
 }
   ```
 
  - #### Recipe Configuration example (BarterConfig\recipeConfig.json):
   ```
 {
-   "barterers":[
-      {
-         "npcID":6,
-         "items":[
-            {
-               "id":"5000",
-               "category":"Bandits",
-               "finalProducts":[
-                  {
-                     "itemName":"TTsKO_Jacket_Camo",
-                     "quantity":1
-                  }
-               ],
-               "requiredItems":[
-                  {
-                     "itemName":"SewingKit",
-                     "quantity":100
-                  },
-                  {
-                     "itemName":"M65Jacket_Black",
-                     "quantity":1
-                  }
-               ]
-            }
-         ]
-      }
-   ]
+ "barterers":[
+    {
+       "npcID":1,
+       "items":[
+          {
+             "id":"5000",
+             "category":"Bandits",
+             "finalProducts":[
+                {
+                   "itemName":"QuiltedJacket_Black",
+                   "quantity":1
+                }
+             ],
+             "requiredItems":[
+                {
+                   "itemName":"SewingKit",
+                   "quantity":100
+                },
+                {
+                   "itemName":"M65Jacket_Black",
+                   "quantity":1
+                }
+             ]
+          }
+       ]
+    }
+ ]
 }
   ```
   
