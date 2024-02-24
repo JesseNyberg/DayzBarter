@@ -44,11 +44,6 @@ https://github.com/JesseNyberg/DayZ-BarteringSystem/assets/67522887/a0d02d22-ba4
   - #### Configure where the barterers spawn and what clothing they have on them.
   - #### Configure what the barterers have for sale. 
 
-  
-- ### **AI Missions**: 
-  - #### While the main point of this mod is to add a bartering system, I have also added AI missions:
-    - #### Mayor mansion mission, Medical supply mission, Weapons cache mission, Cult mission.
-      - #### You might know these missions from the Arma 2 OA Dayz Mod!
 
 
 
