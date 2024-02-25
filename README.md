@@ -47,7 +47,9 @@ https://github.com/JesseNyberg/DayZ-BarteringSystem/assets/67522887/a0d02d22-ba4
 
 
 
-## Configuration
+## Configuration and requirements
+- #### This mod needs Dayz Expansion core for the notifications.
+  - #### You can edit it to any notification system you want to use by replacing (ExpansionNotification) statements.
  - #### NPC Configuration example (BarterConfig\NPCConfig.json):
   ```
 {
