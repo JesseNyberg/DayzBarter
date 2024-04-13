@@ -9,9 +9,6 @@ class BarterUI : UIScriptedMenu
 	private GridSpacerWidget textGridSpacer;
 	private GridSpacerWidget previewTextGridSpacer;
 	
-	private GridSpacerWidget finalQuantityGridSpacer;
-	private GridSpacerWidget previewQuantityGridSpacer;
-	
 	private ButtonWidget m_escapeButton;
 	private ButtonWidget m_buyButton;
 	private ButtonWidget m_buttonWidget;
@@ -50,7 +47,8 @@ class BarterUI : UIScriptedMenu
 	private ref BarterItem selectedBarterItem;
 	private ref array<ref BarterItem> m_barterItems;
 	
-	private int MAX_RECIPE_ITEMS = 16;
+	private int MAX_RECIPE_ITEMS = 12;
+	private int MAX_PREVIEW_ITEMS = 20;
 	
 	void BarterUI()
 	{
@@ -126,11 +124,7 @@ class BarterUI : UIScriptedMenu
 				textGridSpacer = GridSpacerWidget.Cast(rootLayout.FindAnyWidget("GridSpacerText"));
 				previewTextGridSpacer = GridSpacerWidget.Cast(rootLayout.FindAnyWidget("GridSpacerPreviewText"));
 				finalTextGridSpacer = GridSpacerWidget.Cast(rootLayout.FindAnyWidget("GridSpacerFinalText"));
-				
-				previewQuantityGridSpacer = GridSpacerWidget.Cast(rootLayout.FindAnyWidget("GridSpacerPreviewQuantity"));
-				finalQuantityGridSpacer = GridSpacerWidget.Cast(rootLayout.FindAnyWidget("GridSpacerFinalQuantity"));
-				
-				
+					
 				m_escapeButton = ButtonWidget.Cast(rootLayout.FindAnyWidget("escapeButton"));
 				m_buyButton = ButtonWidget.Cast(rootLayout.FindAnyWidget("buyButton"));
 				
@@ -235,8 +229,8 @@ class BarterUI : UIScriptedMenu
 		}
 	}
 	
-	void clearPreviousRecipeTexts(string textWidgets) {
-		for (int i = 0; i < MAX_RECIPE_ITEMS; i++) { 
+	void clearPreviousRecipeTexts(string textWidgets, int textAmount) {
+		for (int i = 0; i < textAmount; i++) { 
 			TextWidget textWidget = TextWidget.Cast(rootLayout.FindAnyWidget(textWidgets + i.ToString()));
 			if (textWidget) {
 				textWidget.SetText(""); 
@@ -248,10 +242,9 @@ class BarterUI : UIScriptedMenu
 		ClearGridSpacer(recipeGridSpacer);
 		ClearGridSpacer(finalProductGridSpacer);
 		
-		clearPreviousRecipeTexts("textRecipePreview");
-		clearPreviousRecipeTexts("textRecipeQuantity");
-		clearPreviousRecipeTexts("textFinalText");
-		clearPreviousRecipeTexts("textFinalQuantity");
+		clearPreviousRecipeTexts("textRecipePreview", MAX_RECIPE_ITEMS);
+		clearPreviousRecipeTexts("textFinalText", MAX_RECIPE_ITEMS);
+		ItemBase item;
 		
 		foreach (BarterItem barterItem : m_barterItems) {
 			if (barterItem.id == id) {
@@ -269,8 +262,11 @@ class BarterUI : UIScriptedMenu
 						m_textWidget = TextWidget.Cast(rootLayout.FindAnyWidget("textFinalText" + i.ToString()));
 						m_textWidget.SetText(finalEntity.GetDisplayName());
 						
-						m_textWidget = TextWidget.Cast(rootLayout.FindAnyWidget("textFinalQuantity" + i.ToString()));
-						if (finalItem.quantity > 1) m_textWidget.SetText(finalItem.quantity.ToString());
+						ItemBase itemFinal = ItemBase.Cast(finalEntity);
+						
+						if (finalItem.quantity > 1) m_textWidget.SetText(finalItem.quantity.ToString() + "x " + finalEntity.GetDisplayName());
+						if (finalItem.quantity > 1 && itemFinal.m_HasQuantityBar) m_textWidget.SetText(finalItem.quantity.ToString() + "% " + finalEntity.GetDisplayName());
+						if (finalItem.quantity > 1 && itemFinal.IsKindOf("Edible_Base") && !itemFinal.IsOpen()) m_textWidget.SetText(finalItem.quantity.ToString() + "x " + finalEntity.GetDisplayName());
 						
 						i++;
 					}
@@ -288,8 +284,11 @@ class BarterUI : UIScriptedMenu
 						m_textWidget = TextWidget.Cast(rootLayout.FindAnyWidget("textRecipePreview" + j.ToString()));
 						m_textWidget.SetText(recipeEntity.GetDisplayName());
 						
-						m_textWidget = TextWidget.Cast(rootLayout.FindAnyWidget("textRecipeQuantity" + j.ToString()));
-						if (requiredItem.quantity > 1) m_textWidget.SetText(requiredItem.quantity.ToString());
+						ItemBase itemRequired = ItemBase.Cast(recipeEntity);
+						
+						if (requiredItem.quantity > 1) m_textWidget.SetText(requiredItem.quantity.ToString() + "x " + recipeEntity.GetDisplayName());
+						if (requiredItem.quantity > 1 && itemRequired.m_HasQuantityBar && itemRequired.IsOpen()) m_textWidget.SetText(requiredItem.quantity.ToString() + "% " + recipeEntity.GetDisplayName());
+						if (requiredItem.quantity > 1 && itemRequired.IsKindOf("Edible_Base") && !itemRequired.IsOpen()) m_textWidget.SetText(requiredItem.quantity.ToString() + "x " + recipeEntity.GetDisplayName());
 						
 						j++;
 					}
@@ -354,12 +353,10 @@ class BarterUI : UIScriptedMenu
 			ClearGridSpacer(finalProductGridSpacer);
 			
 
-			clearPreviousRecipeTexts("textRecipe");
-			clearPreviousRecipeTexts("textRecipePreview");
-			clearPreviousRecipeTexts("textRecipeQuantity");
+			clearPreviousRecipeTexts("textRecipe", MAX_PREVIEW_ITEMS);
+			clearPreviousRecipeTexts("textRecipePreview", MAX_RECIPE_ITEMS);
 			
-			clearPreviousRecipeTexts("textFinalText");
-			clearPreviousRecipeTexts("textFinalQuantity");
+			clearPreviousRecipeTexts("textFinalText", MAX_RECIPE_ITEMS);
 			
 			m_selectedName.SetText(""); 
 			
